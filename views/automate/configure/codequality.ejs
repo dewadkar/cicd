@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+ <link rel='stylesheet' href='/stylesheets/form.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+ <script type="text/javascript">
+
+  function cancel(){    
+    var cancelUrl = "/automate/"+<%- JSON.stringify(from) %>;
+    window.location.href = cancelUrl;
+  }
+
+
+  function setCheckBoxValueToTrueOrFalse(cb) { 
+    if(cb.checked) { 
+      cb.value = "true"; 
+      if(document.getElementById("serveruri").value.trim().length < 1){
+        document.getElementById("serveruri").value = " ";
+      }
+      if(document.getElementById("sourcefolder").value.trim().length < 1){
+        document.getElementById("sourcefolder").value = " ";
+      }
+    }else{
+      cb.value = "false";
+      if(document.getElementById("serveruri").value.trim().length === 0){
+        document.getElementById("serveruri").value = "";
+      }
+      if(document.getElementById("sourcefolder").value.trim().length === 0){
+        document.getElementById("sourcefolder").value = "";
+      }
+    }
+  }
+
+  function init(){    
+    var ignore = <%- JSON.stringify(ignoreSonar) %>;    
+    if(ignore){
+      document.getElementById("ignoreSonar").checked=true;
+    }else{
+      document.getElementById("ignoreSonar").checked=false;
+    }
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body onload="init()">
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch</b> - DevOps Pipeline as a Service</h4>
+   <h4>An end to end devOps solution</h4>
+ </div>
+ 
+ <h5><a style="float:right" href="/signout">Sign Out</a></h5>
+ 
+ <ul class="tabs  primary-nav">
+  <li class="tabs__item">
+    <a href="/devops" class="tabs__link">Hosting Solutions</a>
+  </li>
+  <li class="tabs__item">
+    <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+  </li>
+</ul>
+
+<form action="/automate/configure/codequalitysubmit" id="form1" method="post">
+  <div>
+    <input align="left" style="width:1%" onchange="setCheckBoxValueToTrueOrFalse(this)" id="ignoreSonar" name="ignoreSonar" type="checkbox"></input>
+    <b>Disable Sonar in Pipeline</b>
+  </div>
+  <div>
+    <label for="buildtool">Programming Language:</label>
+    <select  name="language" id="language" selected=<%- JSON.stringify(language) %>>
+      <option value="java">Java</option>
+      <option value="js">JavaScript</option>
+      <option value="py">Python</option>
+    </select>
+    <div class="info">
+      Sepecify the project's language.
+    </div>
+  </div>
+  <div>
+    <label for="serveruri">Sonar Server URI:</label>
+    <input type="text" name="serveruri" id="serveruri" value=<%- JSON.stringify(serveruri) %> required data-required-message="Server URI is required.">
+    <div class="info">
+      The Sonar server's URI.
+    </div>
+  </div>
+  <div>
+    <label for="sourcefolder">Source Folder Location:</label>
+    <input type="text" name="sourcefolder" id="sourcefolder" value=<%- JSON.stringify(sourcefolder) %> required data-required-message="Source Folder Location is required.">
+    <div class="info">
+      Source folder location relative to root dir. Eg. src
+    </div>
+  </div>  
+  <div>
+    <input type="hidden" name="from" id="from" value=<%- JSON.stringify(from) %>>
+    <input type="button" class="cancel" onclick="cancel()" value="Cancel" />
+    <button type="submit" form="form1">Save Configuration</button>
+  </div>
+</form>
+
+
+<div id="footer">
+  <div id="footerContent">
+   <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div>
+ </div>
+</div>
+
+
+</body>
+</html>

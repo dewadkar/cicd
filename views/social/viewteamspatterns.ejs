@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel='stylesheet' href='/stylesheets/devops.css' />
+<link rel='stylesheet' href='/stylesheets/tabs.css' />
+<link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  function copypattern(element) {
+    var ids = element.id;
+    var teampattern = ids.split('_');
+    var x=confirm("Team "+teampattern[0]+" pattern "+teampattern[1]+" coping settings to your teams pattern. Coping will update config if present. Do you really want to copy pattern?");
+    if (x) {
+     
+      $('#form1').append('<input type="hidden" name="copyfromteam" value="'+teampattern[0]+'" />');
+      
+      $('#form1').append('<input type="hidden" name="copiedpattern" value="'+teampattern[1]+'" />');
+      $('#form1').submit();
+
+    }
+  }
+  $(window)
+          .load(
+                  function() {
+
+                    var input = "<%= JSON.stringify(teamspatterns) %>";
+                    var tempClean = input.replace(/&#34;/gi, '"');
+                    var teamsPatterns = JSON.parse(tempClean);
+
+                    var box = document.getElementById("someotherid");
+                    var opt = document.createElement("option");
+                    opt.innerHTML = 'None';
+                    box.appendChild(opt);
+                    for ( var teamPatterns in teamsPatterns) {
+                      var opt = document.createElement("option");
+                      opt.innerHTML = teamPatterns;
+                      box.appendChild(opt);
+                    }
+                    $("#someotherid")
+                            .change(
+                                    function() {
+                                      var selectedTeam = "";
+                                      $("select option:selected").each(
+                                              function() {
+                                                selectedTeam += $(this).text()
+                                                        + " ";
+                                              });
+                                      var input = "<%= JSON.stringify(teamspatterns) %>";
+                                      var tempClean = input.replace(/&#34;/gi,
+                                              '"');
+                                      var teamsPatterns = JSON.parse(tempClean);
+                                      var counter = 0;
+                                      var tableRows = '<table class="table table-striped table-hover"> \
+        <thead> \
+          <tr> \
+            <th>#</th> \
+            <th>Team Name</th> \
+            <th>Pattern</th> \
+            <th>Actions</th> \
+          </tr> </thead><tbody>';
+                                      var tableend = '</tbody></table>';
+                                      for ( var teamPatterns in teamsPatterns) {
+                                        if (teamPatterns.toString().trim() == selectedTeam
+                                                .toString().trim()) {
+                                          var team = teamsPatterns[teamPatterns];
+                                          for ( var patterns in team) {
+                                            var rows = '<tr> \
+                     <th scope="row">'
+                                                    + (counter++)
+                                                    + '</th> <td>'
+                                                    + teamPatterns
+                                                    + '</td><td> \
+                     <a href="/automate/pattern1">jenkins + rtc + maven/mvn + sonar + bluemix + slack<br/> \
+                     <img src="/img/'+team[patterns]+'-logo.png" alt="Pattern 1"/></a></td><td> \
+                     <div style="float:right"> \
+                     <button id='
+                                                    + teamPatterns
+                                                    + '_'
+                                                    + team[patterns]
+                                                    + ' class="btn btn-info" type="button" form="form1" onclick="copypattern(this)"">Copy pattern to my team</button> \
+                   </div></td></tr>';
+                                            tableRows += rows;
+                                          }
+                                        }
+                                      }
+                                      var x = document
+                                              .getElementById("patterns");
+                                      x.innerHTML = tableRows + tableend;
+
+                                    });
+
+                  });
+</script>
+
+</head>
+<body>
+
+ <div id="header" align="center">
+  <h4>
+   Whitewater <b>ToolStitch Pattern Builder</b>
+  </h4>
+  <!-- DevOps Pipeline as a Service</h4> -->
+  <!-- <h4>An End-to-End DevOps Solution</h4> -->
+  <!-- </div> -->
+
+  <h5 align="right">
+   Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp; <!--<h5 align="right">&nbsp; -->
+     User - <b><%- JSON.stringify(email) %></b>&nbsp; <a style="float: right padding:10px 10px 20px"
+     href="/signout"> Sign Out </a>&nbsp;&nbsp; 
+  </h5>
+
+  <ul class="tabs  primary-nav">
+   <li class="tabs__item"><a href="/devops" class="tabs__link">Hosting Solutions</a></li>
+   <li class="tabs__item"><a href="/automate" class="tabs__link">Automated Devops Pipeline
+     Setup</a></li>
+  </ul>
+  <div id="teampatterns">
+   <div class="form-group">
+    <label for="mySelect"><strong>&nbsp;Select Team to view pattern</strong></label> <select
+     id="someotherid" class="form-control" style="width: 30%;">
+    </select>
+   </div>
+  </div>
+  <form action="/teams/patterns/copypattern" id="form1" method="POST">
+   <div id="patterns"></div>
+  </form>
+ </div>
+</body>
+</html>

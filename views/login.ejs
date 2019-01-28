@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel='stylesheet' href='/stylesheets/devops.css' />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="scripts/devops.js"></script>
+
+
+</head>
+<body>
+
+	<div id="header" align="center">
+		<h1>Whitewater <b>ToolStitch Pattern Builder</b> - DevOps Pipeline as a Service</h1>
+	</div>
+	<div id="header" align="center">
+		<h3>An End-to-End DevOps Pattern Builder</h3>
+	</div>
+	
+	<section class="container">
+		<div class="login">
+			<br><label>Sign In ( with IBM Intranet Id)</label></br>
+			<% if(locals.info){%>
+				<div class="login-message">
+			    	<p> <%= locals.info.message %> </p>
+			    </div>
+			<% } %>
+			<form method="post" action="authenticate">
+				<p><input type="text" name="username" value="" placeholder="Email"></p>
+				<p><input type="password" name="password" value="" placeholder="Password"></p>
+				<p class="remember_me">
+					<label>
+						<input type="checkbox" name="remember_me" id="remember_me">
+						Remember me on this computer
+					</label>
+				</p>
+				<p class="submit"><input type="submit" name="commit" value="Login"></p>
+			</form>
+		</div>
+
+		<!-- <div class="login-help">
+			<p>Forgot your password? <a href="index.html">Click here to reset it</a>.</p>
+		</div> -->
+	</section>
+	
+	<div id="footer">
+		<div id="footerContent">
+			Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>
+			<!-- <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div> -->
+		</div>
+	</div>
+
+
+</body>
+</html>

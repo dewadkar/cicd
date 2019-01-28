@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+   <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="SHORTCUT ICON" href="https://www.moon.com/favicon.ico">
+<title>Whitewater</title>
+<link rel="stylesheet"
+	href="/stylesheets/main.css?cacheBust=bDt9pLZIlPuKWO0TQKDm8w==">
+<link rel="icon" href="https://www.moon.com/favicon.ico">
+    
+    <title><%= title %></title>
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/codepen.css' />
+  <link rel='stylesheet' href='/stylesheets/pipeline.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript">
+
+ $( window ).load(function() {
+  
+   var input="<%= JSON.stringify(progress); %>";
+  var test= input.replace(/&#34;/gi,'"');
+   var progress=JSON.parse(test);
+    var x=document.getElementById("progressbar");  
+	x.innerHTML="";
+	var content='';
+   if(progress){
+	       for(var tool in progress){
+			   //alert(progress[tool]);
+			     var htmlContentStart='<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+progress[tool]+'"';
+			      var endContent='aria-valuemin="0" aria-valuemax="100" style="width:'+progress[tool]+'%">'+progress[tool]+' Complete ('+tool+')</div></div></div>';
+					content+=htmlContentStart+endContent;				 
+	             
+   			}
+   	x.innerHTML=x.innerHTML+content;
+   	}
+   	
+   	
+	   
+ });
+
+ $(document).ready(function(){
+
+ 
+	   
+	   
+  
+	   
+     
+ });
+ 
+ 
+ 
+ </script>
+    
+ 
+  </head>
+  <body>
+  
+  <header class="_band--HEADER">
+		<div class="_band--body">
+			<div class="_full">
+				<nav class="header">
+					<ul class="header--brand">
+						<li><a class="header--link" href="/">IBM <span
+								class="header--title">Whitewater Tool Chain</span></a></li>
+					</ul>
+					
+				</nav>
+			</div>
+		</div>
+	</header>
+  
+  
+  
+  
+  <div class="row">
+    <div class="col-xs-6 col-center-block">
+		    <h1><%= title %></h1>
+		    <p>Welcome to <%= title %></p>
+		    
+		   
+		   
+		        <div id="progressbar">
+		             <p>Problem in showing progress!!!</p>
+		        </div>
+		   
+		   <br><br>
+		    <div class="button">  
+									<button type="button" class="btn btn-success" id="submit">Submit</button>
+									<button type="button" class="btn btn-default">Reset</button>
+						 </div>
+		   </form> 
+    
+    </div>
+</div>
+    
+  </body>
+  
+ </html>

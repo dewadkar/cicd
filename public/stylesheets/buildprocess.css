@@ -1,0 +1,188 @@
+#wrap { margin:2 2; border:20px solid white; }
+#body { overflow:auto; }
+#sidebar { float:left; width:22%; background-color:#ccc; min-height:400px; }
+
+#screen{
+    background:#222;
+    overflow:hidden; 
+    margin:2em 10%;
+    padding:20px;
+    font-family: "Courier new", "american typewriter";
+    font-weight: 400;
+    font-size: .8em;
+    line-height: 2;
+    letter-spacing: 1.2px;
+    color: #58bf1d;
+    /* CSS3 properties */
+    -webkit-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    -moz-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    -ms-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    -o-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+}
+
+#screen2{
+    background:#222;
+    overflow:hidden; 
+    margin:2em 10%;
+    padding:20px;
+    font-family: "Courier new", "american typewriter";
+    font-weight: 400;
+    font-size: .8em;
+    line-height: 2;
+    letter-spacing: 1.2px;
+    color: #58bf1d;
+    /* CSS3 properties */
+    -webkit-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    -moz-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    -ms-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    -o-text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+    text-shadow: 0px 0px 3px rgba(88,191,29,0.5);
+}
+
+.buildButton{
+    background:url(./resources/build-icon.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    width:10px;
+    height:10px;
+}
+
+.buildButton:active  /* use Dot here */
+{   
+    background:url(./resources/build-icon.png) no-repeat;
+}
+
+
+.note {
+    position:relative;
+    overflow:hidden; /* hides part of the box-shadow */
+    padding:20px;
+    margin:2em 10%;
+    color:#fff;
+    background:#97C02F;
+}
+
+.note:before {
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    border-width:0 16px 16px 0;
+    border-style:solid;
+    border-color:#658E15 #fff;
+    /* css3 extras */
+    -webkit-box-shadow:0 1px 1px rgba(0,0,0,0.3), 
+    -1px 1px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow:0 1px 1px rgba(0,0,0,0.3), 
+    -1px 1px 1px rgba(0,0,0,0.2);
+    box-shadow:0 1px 1px rgba(0,0,0,0.3), 
+    -1px 1px 1px rgba(0,0,0,0.2);
+}
+
+a.btn {
+    display: block; 
+    width: 250px; 
+    height: 60px; 
+    padding: 20px 0 0 0; 
+    margin: 0 auto;
+    
+    background: #d46a15; /* old browsers */
+    background: -moz-linear-gradient(top, #d798000%, #d46a15 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d79800), color-stop(100%,#d46a15)); /* webkit */
+    
+    box-shadow: inset 0px 0px 6px #fff;
+    -webkit-box-shadow: inset 0px 0px 6px #fff;
+    border: 1px solid #222222;
+    border-radius: 10px;
+    
+    font-size: 20px; 
+    font-family: 'Yanone Kaffeesatz';
+    text-align: center;
+    text-transform: uppercase; 
+    text-decoration: none;
+    color: #222222;
+    text-shadow: 0px 1px 2px #bf4c24;
+    
+    -moz-transition: color 0.25s ease-in-out;
+    -webkit-transition: color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out;    
+}
+
+a.btn:hover {
+    color: #efefef;
+    
+    -moz-transition: color 0.25s ease-in-out;
+    -webkit-transition: color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out;
+}
+
+a.btn:active { 
+    -moz-transform: translate(0px, 3px); 
+    -webkit-transform: translate(0px, 3px);
+}
+
+.pill {
+    @extend %button;
+    @include letterpress-light();
+    background-color: #0080ff;
+    border-radius: 99em;
+    color: white;
+}
+
+.buildsteptextarea {
+    resize: none;
+    overflow: hidden;
+    min-height: 100px;
+    width : 30%;
+    display : none;
+}
+
+
+.buildstepbutton { 
+    border: 1px solid rgba(25, 66, 137, 0.8);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    background-color: #194289;
+    background-image: -o-linear-gradient(bottom, #194289 38%, #4A72B8 69%, #7A98CF 99%);
+    background-image: -moz-linear-gradient(bottom, #194289 38%, #4A72B8 69%, #7A98CF 99%);
+    background-image: -webkit-linear-gradient(bottom, #194289 38%, #4A72B8 69%, #7A98CF 99%);
+    background-image: -ms-linear-gradient(bottom, #194289 38%, #4A72B8 69%, #7A98CF 99%);
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.38, #194289),
+        color-stop(0.69, #4A72B8),
+        color-stop(0.99, #7A98CF)
+        );
+    background-image: linear-gradient(bottom, #194289 38%, #4A72B8 69%, #7A98CF 99%);
+    margin: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: .5em 1em;
+    float: left;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.buildstepbutton:hover, .button:active {
+    border: 1px solid rgba(245, 157, 5, 0.8);
+    background-color: #f59d05;
+    background-image: -o-linear-gradient(bottom, rgb(245,157,5) 35%, rgb(250,220,47) 68%);
+    background-image: -moz-linear-gradient(bottom, rgb(245,157,5) 35%, rgb(250,220,47) 68%);
+    background-image: -webkit-linear-gradient(bottom, rgb(245,157,5) 35%, rgb(250,220,47) 68%);
+    background-image: -ms-linear-gradient(bottom, rgb(245,157,5) 35%, rgb(250,220,47) 68%);
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.35, rgb(245,157,5)),
+        color-stop(0.68, rgb(250,220,47))
+        );
+

@@ -1,0 +1,34 @@
+# BUILD USING:  docker build --rm -t ciocldreg101.innovate.ibm.com/ciohcld/jenkins
+# RUN USING: docker run -d --name jenkins-master -it -p 8081:8081 -v /var/lib/jenkins:/var/lib/jenkins:rw ciocldreg101.innovate.ibm.com/ciohcld/jenkins
+
+FROM ciocldreg101.innovate.ibm.com/ciohcld/centos7
+
+MAINTAINER Abhay Ratnaparkhi email:abratnap@in.ibm.com
+
+# Add docker yum repository.
+COPY docker.repo /etc/yum.repos.d/
+
+# Install necessary packages.
+RUN yum update -y && yum install wget -y && \
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo && \
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key && \
+yum install jenkins java-1.8.0-openjdk initscripts maven ant git bind-utils docker-engine-1.7.1 -y && \
+yum clean all
+
+# Copy startup script inside.
+COPY start-jenkins.sh /start-jenkins.sh
+
+# COPY tar as jenkins home
+RUN rm -rf /var/lib/jenkins
+RUN mkdir -p /var/lib/jenkins
+COPY jenkins-home.tar /root/jenkins-home.tar
+
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py
+RUN pip install Flask
+
+EXPOSE 8080
+
+CMD /start-jenkins.sh && sleep 3650d
+
+RUN groupmod -g 233 docker && usermod -G docker jenkins

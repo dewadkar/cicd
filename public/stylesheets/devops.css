@@ -1,0 +1,210 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300);
+
+#page-wrap {
+	text-align: left;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.fa {
+	font-size: 20px;
+}
+
+.fa-info {
+	color: white;
+}
+
+.login-message {
+	color:red;
+}
+
+.login-help {
+	color:blue;
+}
+
+#breakdiv {
+	float: left;
+	margin: 2px 20px 20px 20px;
+}
+
+#container {
+	width: 250px;
+	height: 338px;
+	max-width: 330px;
+	background: white;
+	box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
+	transform: translate3d(10%, 10%, 0);
+	margin-left: 40%;
+}
+
+h2 {
+	padding: 20px;
+	color: white;
+	background: #3E4FB2;
+	font-weight: 300;
+	text-align: center;
+	font-size: 18px;
+	font-family: 'Roboto', sans-serif;
+}
+
+.detail {
+	color: #777;
+	padding: 20px;
+	line-height: 1.5;
+	font-family: 'Roboto', sans-serif;
+}
+
+.img-wrapper {
+	padding: 0;
+	position: relative;
+}
+
+.img-wrapper:after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(62, 79, 178, .25);
+	width: 100%;
+}
+
+.img-wrapper img {
+	width: 100%;
+	height: 200px;
+	-o-object-fit: cover;
+	object-fit: cover;
+	margin: 0;
+	display: block;
+	position: relative;
+}
+
+.content p {
+	color: white;
+	font-weight: 300;
+	text-align: center;
+	line-height: 1.5;
+	font-family: 'Roboto', sans-serif;
+}
+
+.content p a {
+	font-size: 12px;
+	background: white;
+	padding: 2.5px 5px;
+	color: #ff2670;;
+	text-decoration: none;
+	border-radius: 50px;
+	display: inline-block;
+	margin-left: 1.5px;
+}
+
+.content img, .content p {
+	opacity: 0;
+	position: relative;
+	top: -7.5px;
+}
+
+#header {
+	background-color: #5ca5ba;
+	min-width: 100%;
+	height: 60px;
+	float: left
+}
+
+#headerContent {
+	width: 940px;
+	margin: 0 auto;
+	padding: 15px;
+	font-size: 30px;
+	color: white;
+}
+
+#footer {
+	background: #5ca5ba;
+	min-width: 100%;
+	height: 60px;
+	float: left;
+	margin-top: 70px;
+}
+
+#footerContent {
+	margin: 0 auto;
+	width: 940px;
+	padding: 15px;
+	text-align: center;
+}
+
+.host {
+    @extend %button;
+    @include letterpress-light();
+    background-color: #00c000;
+    color: white;
+}
+
+.destroy {
+    @extend %button;
+    @include letterpress-light();
+    background-color: #c00000;
+    color: white;
+}
+@import url(http://fonts.googleapis.com/css?family=Karla:700, 400);
+ h1, p, {
+    color: #4C4C4C;
+    font-family: verdana, sans-serif;
+    font-weight: 400;
+}
+.btn {
+    display: inline-block;
+    font-size: .882352941em;
+    font-family:'Karla', verdana, sans-serif;
+    padding: .4em .666666667em;
+    line-height: 1.333333333;
+    font-weight: normal;
+    background-color: #FF530D;
+    border: 0.07143em solid #FF530D;
+    border-radius: .2em;
+    border-bottom: 0.3em solid #E82C0C;
+    color: #fff;
+    margin-left: .3em;
+    margin-bottom: .3em;
+    text-decoration: none;
+}
+.btn-large {
+    padding: 0.3em 1.5em;
+    font-size: 1.5em;
+    line-height: normal;
+    border-radius: .2em;
+    font-weight: 700;
+}
+.btn-x-large {
+    font-size: 2em;
+}
+.btn:hover {
+    background-color: #FF6526;
+    border-color: #FF6526;
+    text-decoration: none;
+    border-bottom-color: #E83014;
+}
+
+.sideBar {    
+    z-index: 1000;
+}
+.sideBar.boxLeft {
+    width: 300px;
+    float:left;
+    padding: 0px 0px 0px 0px;
+    left:75px;
+    background-color:#eee;
+    top:30%;
+}
+.mainPage 
+{
+    padding: 0 0 0 400px;
+}
+
+.mainPage p
+{
+   text-align:left;
+    padding:0 0 0 2px;
+}

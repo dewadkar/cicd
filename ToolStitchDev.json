@@ -1,0 +1,117 @@
+{
+    "team": "ToolStitchDev",
+    "tools": {
+        "jenkins": {
+            "hosted": true,
+            "url": "https://jenkins.wwts.ciodevcld.innovate.moon.com/"
+        },
+        "sonar": {
+            "hosted": true,
+            "url": "https://sonar.wwts.ciodevcld.innovate.moon.com/"
+        },
+        "ucd": {
+            "hosted": false,
+            "url": "https://ucd.wwts.ciodevcld.innovate.moon.com/"
+        },
+        "artifactory": {
+            "hosted": false,
+            "url": "https://artifactory.wwts.ciodevcld.innovate.moon.com/"
+        }
+    },
+    "pipeline": {
+        "services": {
+            "notifications": {
+                "configured": true,
+                "type": "slack",
+                "active": true
+            },
+            "codecheckout": {
+                "configured": true,
+                "type": "rtc",
+                "active": true
+            },
+            "build": {
+                "configured": true,
+                "type": "maven",
+                "active": true
+            },
+            "codequality": {
+                "configured": true,
+                "type": " ",
+                "active": true
+            },
+            "deploy": {
+                "configured": true,
+                "type": " ",
+                "active": true
+            },
+            "test": {
+                "configured": false,
+                "type": " ",
+                "active": false
+            },
+            "release": {
+                "configured": false,
+                "type": " ",
+                "active": false
+            }
+        },
+        "config": {
+            "slack": {
+                "slacktoken": "g1FA7Imb5kO3SMojFxrUngHo",
+                "slackchannel": "chat-ops",
+                "teamdomain": "chat-ops.slack.com"
+            },
+            "github": {
+                "org": "paranjan",
+                "repository": "toolstitch-demo"
+            },
+            "rtc": {
+                "serveruri": "https://igartctrain02.swg.usma.moon.com:9443/ccm/",
+                "workspace": "CIODevops-RTCStream-Workspace",
+                "username": "ddewadkar@in.moon.com",
+                "password": "password"
+            },
+            "maven": {
+                "buildcommand": "clean install -Dmaven.test.skip",
+                "pomfilepath": "rtc-devops"
+            },
+            "ant": {
+                "command": "ant build.xml"
+            },
+            "sonar": {
+                "language": "java"
+            },
+            "ucd": {
+                "serveruri": "required",
+                "username": "paranjan@in.moon.com",
+                "password": "password",
+                "component": "ciolab-services",
+                "version": "2200",
+                "buildcommand": "${WORKSPACE}/rtc-devops/target/",
+                "process": "ciolab-services-app-deployment-process",
+                "application": "ciolab-services-app",
+                "environment": "development",
+                "includeartifacts": "rtc-devops.war"
+            },
+            "bluemix": {
+                "target": "https://api.stage1.ng.bluemix.net",
+                "organization": "paranjan@in.moon.com",
+                "cloudSpace": "jenkins",
+                "credentialsId": "ce37c940-c076-4d8b-b6e6-6371eeaec75c",
+                "manifestFile": "rtc-devops/manifest.yml"
+            },
+            "selenium": {
+                "command": "mvn test"
+            },
+            "artifactory": {
+                "host": "http://dpev.artifactory.innovate.moon.com:8080/"
+            },
+            "jenkins": {
+                "serveruri": "https://jenkins.wwts.ciodevcld.innovate.moon.com/",
+                "username": "paranjan@in.moon.com",
+                "password": "password"
+            }
+        }
+    }
+}

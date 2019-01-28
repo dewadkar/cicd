@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+ <link rel='stylesheet' href='/stylesheets/form.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+ <script type="text/javascript">
+
+  function cancel(){
+    var cancelUrl = "/automate/"+<%- JSON.stringify(from) %>;
+    window.location.href = cancelUrl;
+  }
+
+  function setCheckBoxValueToTrueOrFalse(cb) { 
+    if(cb.checked) { 
+      cb.value = "true";
+      if(document.getElementById("target").value.trim().length < 1){
+        document.getElementById("target").value = " ";
+      }
+      if(document.getElementById("username").value.trim().length < 1){
+        document.getElementById("username").value = " ";
+      }
+      if(document.getElementById("password").value.trim().length < 1){
+        document.getElementById("password").value = " ";
+      }
+      if(document.getElementById("organization").value.trim().length < 1){
+        document.getElementById("organization").value = " ";
+      }      
+      if(document.getElementById("cloudSpace").value.trim().length < 1){
+        document.getElementById("cloudSpace").value = " ";
+      }
+      if(document.getElementById("manifestFile").value.trim().length < 1){
+        document.getElementById("manifestFile").value = " ";
+      }
+    }else{
+      cb.value = "false";
+      if(document.getElementById("target").value.trim().length === 0){
+        document.getElementById("target").value = "";
+      }
+      if(document.getElementById("username").value.trim().length === 0){
+        document.getElementById("username").value = "";
+      }
+      if(document.getElementById("password").value.trim().length === 0){
+        document.getElementById("password").value = "";
+      }
+      if(document.getElementById("organization").value.trim().length === 0){
+        document.getElementById("organization").value = "";
+      }      
+      if(document.getElementById("cloudSpace").value.trim().length === 0){
+        document.getElementById("cloudSpace").value = "";
+      }
+      if(document.getElementById("manifestFile").value.trim().length === 0){
+        document.getElementById("manifestFile").value = "";
+      }
+    }
+  }
+
+  function init(){    
+    var ignore = <%- JSON.stringify(ignoreBluemix) %>;    
+    if(ignore){
+      document.getElementById("ignoreBluemix").checked=true;
+    }else{
+      document.getElementById("ignoreBluemix").checked=false;
+    }
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body onload=init()>
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch</b> - DevOps Pipeline as a Service</h4>
+   <h4>An end to end devOps solution</h4>
+ </div>
+ 
+ <h5><a style="float:right" href="/signout">Sign Out</a></h5>
+ 
+ <ul class="tabs  primary-nav">
+  <li class="tabs__item">
+    <a href="/devops" class="tabs__link">Hosting Solutions</a>
+  </li>
+  <li class="tabs__item">
+    <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+  </li>
+</ul>
+
+
+<form action="/automate/configure/travisci/deploybluemixsubmit" id="form1" method="post">  
+  <div>
+    <input  align="left" style="width:1%" onchange="setCheckBoxValueToTrueOrFalse(this)" id="ignoreBluemix" name="ignoreBluemix" type="checkbox"></input>
+    <b>Disable Bluemix in Pipeline</b>
+  </div>
+  <div>
+    <label for="Target">Target:</label>
+    <input type="text" name="target" id="target" value=<%- JSON.stringify(target) %> required data-required-message="Target URI is required.">
+    <div class="info">
+      The API endpoint of the platform you want to push to.
+      This is the URL you use to access the platform, possibly with ".api" added. 
+    </div>
+  </div>
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" value=<%- JSON.stringify(username) %> required data-required-message="Username is required.">
+    <div class="info">
+      The user name used to login to the Bluemix
+    </div>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" value=<%- JSON.stringify(password) %> required data-required-message="Password is required.">
+    <div class="info">
+      The password used to login to the Bluemix
+    </div>
+  </div>
+  <div>
+    <label for="Organization">Organization:</label>
+    <input type="text" name="organization" id="organization" value=<%- JSON.stringify(organization) %> required data-required-message="Organization is required.">
+    <div class="info">
+      Specify the Bluemix organization.
+    </div>
+  </div>
+  <div>
+    <label for="CloudSpace">CloudSpace:</label>
+    <input type="text" name="cloudSpace" id="cloudSpace" value=<%- JSON.stringify(cloudSpace) %> required data-required-message="CloudSpace is required.">
+    <div class="info">
+      Specify the Bluemix space.
+    </div>
+  </div>
+  <div>
+    <label for="Path To Manifest File">Path To Manifest File:</label>
+    <input type="text" name="manifestFile" id="manifestFile" value=<%- JSON.stringify(manifestFile) %> required data-required-message="Path To Manifest File is required.">
+    <div class="info">
+      The path to the manifest file, relative to the root of your application. Eg. rtc-devops/manifest.yml
+    </div>
+  </div> 
+  <div>
+    <input type="hidden" name="from" id="from" value=<%- JSON.stringify(from) %>>
+    <input type="button" class="cancel" onclick="cancel()" value="Cancel" />
+    <button type="submit" form="form1">Save Configuration</button>
+  </div>
+</form>
+
+<div id="footer">
+  <div id="footerContent">
+   <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div>
+ </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+* { box-sizing: border-box; }
+body {
+    font-size: 1.2em;
+}
+body input, body button {
+    font-size: 1.2em;
+}
+
+form > div {
+    margin: 1em;
+}
+form button {
+    width: 20%;
+}
+
+label { display: block; }
+input {
+    width: 40%;
+    padding: 0.2em;
+}
+button {
+    padding: 0.2em;
+}
+.invalid {
+    background: red;
+    color: white;
+}
+.error {
+    color: red;
+}
+.cancel{
+    width: 20%;
+}
+div.info { 
+    display:block;
+    /* Make sure the info element is initially hidden */
+    color: #777;
+    font-size: 12px;
+    margin: 2px 0; 
+    text-indent: 1em;
+}

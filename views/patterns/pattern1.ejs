@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+ <script type="text/javascript">
+
+   function activate(service){
+    var choice = confirm("Activate " + service);
+    if (choice == true) {
+      // alert(service+ " will be activated");      
+      var ajaxURLBuild="/automate/services/activate/"+service;
+
+      $.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+        alert(result);
+      }});
+
+    } 
+  }
+
+  function deactivate(service){
+    var choice = confirm("Deactivate " + service);
+    if (choice == true) {
+      // alert(service+ " will be deactivated");
+      var ajaxURLBuild="/automate/services/deactivate/" + service;
+
+      $.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+        alert(result);
+      }});
+    }     
+  }
+
+  function configure(service){
+    window.location.href = "/automate/configure/"+service + "?from=pattern1";
+  }
+
+  function message(){    
+    if(window.location.href.indexOf('error') > -1){
+      alert("An error occured while configuring pattern. Please try again.");
+    }
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body onload=message()>
+
+
+  <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4> <!-- DevOps Pipeline as a Service</h4> -->
+   <!-- <h4>An End-to-End DevOps Solution</h4> -->
+   <!-- </div> -->
+
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     <!--<h5 align="right">&nbsp; --> User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;</h5>
+
+     <ul class="tabs  primary-nav">
+      <li class="tabs__item">
+        <a href="/devops" class="tabs__link">Hosting Solutions</a>
+      </li>
+      <li class="tabs__item">
+        <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+      </li>
+    </ul>
+
+    <div>
+      <a target="_blank" class="btn" href=<%- JSON.stringify(jobURL) %>>Link to Jenkins Job for this pattern</a>
+    </div>
+
+    <table>
+      <colgroup>
+      <col>
+      <col class=t20>
+      <col class=t20>
+      <col class=t20>
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Tool Configuration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Get Notifications On Slack&nbsp;<img src="/img/slack-table.png"/></td>
+        <td>
+          <button class="host" onclick="configure('notifications')">Configure</button>
+          <% if(config.pipeline.pattern1.config.slack.configured){ %> &#9989<%}%>
+        </td>
+      </tr>
+      <tr>
+        <td>Checkout Your Code&nbsp;<img src="/img/rtc-table.png"/></td>
+        <td>
+          <button class="host" onclick="configure('codecheckoutrtc')">Configure</button>
+          <% if(config.pipeline.pattern1.config.rtc.configured){ %> &#9989<%}%>
+        </td>
+      </tr>
+      <tr>
+        <td>Build/Package Your Code&nbsp;<img src="/img/maven-table.png"/></td>
+        <td>
+          <button class="host" onclick="configure('buildmaven')">Configure</button>
+          <% if(config.pipeline.pattern1.config.maven.configured){ %> &#9989<%}%>
+        </td>
+      </tr>
+      <tr>
+        <td>Analyze your code Quality&nbsp;<img src="/img/sonar-table.png"/></td>
+        <td>
+          <button class="host" onclick="configure('codequality')">Configure</button>
+          <% if(config.pipeline.pattern1.config.sonar.configured){ %> &#9989<%}%>
+        </td>
+      </tr>
+      <tr>
+        <td>Deploy Application &nbsp;<img src="/img/bluemix-table.png"/></td>
+        <td>
+          <button class="host" onclick="configure('deploybluemix')">Configure</button>
+          <% if(config.pipeline.pattern1.config.bluemix.configured){ %> &#9989<%}%>
+        </td>
+      </tr>
+      <tr>
+        <td>Integration Tool &nbsp;<img src="/img/jenkins-table.png"/></td>
+        <td>
+          <button class="host" onclick="configure('cijenkins')">Configure</button>
+          <% if(config.pipeline.pattern1.config.jenkins.configured){ %> &#9989<%}%>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form action="/automate/configure/patternsetup1" id="form1" method="POST">
+    <input type="hidden" name="from" id="from" value="pattern1"/>
+    <div style="float:right">
+     <button class="btn btn-large" type="submit" form="form1">Setup Devops Pipeline</button>
+   </div>
+
+ </form>
+ <div id="footer">
+  <div id="footerContent">
+    Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>
+    <!-- <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div> -->
+  </div>
+</div>
+
+
+</body>
+</html>

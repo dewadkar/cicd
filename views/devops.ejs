@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+ <script type="text/javascript">
+
+
+  function manageTeams(){
+    window.location.href= window.location.origin+'/admin/superadmin';
+  }
+
+  function changeNamespace(){
+    var teamns = document.getElementById('teamns').value;
+    if(teamns.trim().length > 0){
+      teamns = teamns.toLowerCase();
+      window.location.href= window.location.origin+'/admin/changeNamespace?teamns=' + teamns;
+    }else{
+      alert('Please enter a namespace.');
+    }
+  }
+
+  function host(tool){
+    var choice = confirm("Host " + tool);
+    if (choice == true) {
+      var ajaxURLBuild="/host?tool="+tool;
+      $.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+        alert(JSON.stringify(result));
+      }});
+
+    } 
+  }
+
+  function destroy(tool){
+    var choice = confirm("Destroy " + tool);
+    if (choice == true) {
+      alert(tool+ " will be destroyed");
+      var ajaxURLBuild="/destroy?tool=" + tool;
+
+      $.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+        alert(result);
+      }});
+    }     
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body>
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4> <!-- DevOps Pipeline as a Service</h4> -->
+   <!-- <h4>An End-to-End DevOps Solution</h4> -->
+   <!-- </div> -->
+
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;
+     <!-- <a style="float:right padding:20px 20px 20px" href="#">Switch Team</a> -->
+   </h5>
+</div>
+   <ul class="tabs  primary-nav">
+    <li class="tabs__item">
+      <a href="/devops" class="tabs__link">Hosting Solutions</a>
+    </li>
+    <li class="tabs__item">
+      <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+    </li>
+    <% if(admin){%> 
+    <li class="tabs__item">
+      <a href="/admin" class="tabs__link">Manage Users</a>
+    </li>
+    <% } %>      
+  </ul>
+
+  <% if(superadmin){%> 
+  <% if(nschanged){%>   
+  <div style="float:left">
+    <input maxlength="4" placeholder="NAMESPACE" type="text" id="teamns"></input>
+    <a id="nschangebutton" href="#" class="btn" onclick=changeNamespace()>Set Namespace</a>
+  </div>  
+  <% } %>
+  <% } %>
+
+  <div style="color:red">
+    <%- JSON.stringify(nsmessage) %>
+  </div>
+  <h3>
+   <a style="float:left" class="btn" href="/teams/patterns">Explore Other Teams Patterns </a>
+    </h3>
+
+  <table>
+    <colgroup>
+    <col>
+    <col class=t20>
+    <col class=t20>
+    <col class=t20>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Tool</th>
+      <th>Hosting URL</th>
+      <% if(superadmin){%> 
+      <th>Action</th>
+      <% } %>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Jenkins &nbsp;<img src="/img/jenkins-table.png" alt="Jenkins"/></td>
+      <td>
+        <a target="_blank" href=<%= config.tools.jenkins.url %>>
+          <%= config.tools.jenkins.url %>
+        </a>
+      </td>
+      <% if(superadmin){%> 
+      <td>
+        <% if(config.tools.jenkins.hosted){%> 
+
+        <% }else{ %>          
+        <% } %>
+        <button class="host" onclick="host('Jenkins')">Host</button>
+        <!-- <button class="destroy" onclick="destroy('Jenkins')">Destroy</button> -->
+      </td>
+      <% } %>
+    </tr>
+    <tr>
+      <td>Sonar &nbsp;<img src="/img/sonar-table.png" alt="Sonar"/></td>
+      <td>
+        <a target="_blank" href=<%= config.tools.sonar.url %>>
+          <%= config.tools.sonar.url %>
+        </a>
+      </td>
+      <% if(superadmin){%> 
+      <td>
+        <% if(config.tools.sonar.hosted){%>           
+        <% }else{ %>          
+        <% } %>
+        <button class="host" onclick="host('Sonar')">Host</button>
+        <!-- <button class="destroy" onclick="destroy('Sonar')">Destroy</button> -->
+      </td> 
+      <% } %>
+    </tr>
+    <tr>
+      <td>UCD &nbsp;<img src="/img/urbancode-table.png" alt="Urbancode Deploy"/></td>
+      <td>
+        <a  target="_blank" href=<%= config.tools.ucd.url %>>
+          <%= config.tools.ucd.url %>
+        </a>
+      </td>
+      <% if(superadmin){%> 
+      <td>
+        <% if(config.tools.ucd.hosted){%>           
+        <% }else{ %>          
+        <% } %>      
+        <button class="host" onclick="host('UCD')">Host</button>
+        <!-- <button class="destroy" onclick="destroy('UCD')">Destroy</button> -->
+      </td> 
+      <% } %>     
+    </tr>
+    <tr>
+      <td>Artifactory &nbsp;<img src="/img/artifactory-table.png" alt="Artifactory"/></td>
+      <td>
+        <a  target="_blank" href=<%= config.tools.artifactory.url %>>
+          <%= config.tools.artifactory.url %>
+        </a>
+      </td>
+      <% if(superadmin){%> 
+      <td>
+        <% if(config.tools.artifactory.hosted){%>           
+        <% }else{ %>          
+        <% } %>      
+        <button class="host" onclick="host('artifactory')">Host</button>
+        <!-- <button class="destroy" onclick="destroy('UCD')">Destroy</button> -->
+      </td> 
+      <% } %>     
+    </tr>   
+<!--   <tr>
+    <td>Sit</td>
+    <td>Dolor</td>
+    <td>Ipsum</td>
+    <td>Lorem</td>
+  </tr> -->
+</tbody>
+</table>
+
+<% if(superadmin){%> 
+<div>      
+ <a href="#" class="btn" onclick=manageTeams()>Manage Teams</a>
+</div>
+<% } %>
+
+<div id="footer">
+  <div id="footerContent">
+    Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>
+    <!-- <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div> -->
+  </div>
+</div>
+
+
+</body>
+</html>

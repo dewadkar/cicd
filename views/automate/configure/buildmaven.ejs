@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+ <link rel='stylesheet' href='/stylesheets/form.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ 
+
+ <script type="text/javascript">
+
+  function cancel(){
+    var cancelUrl = "/automate/"+<%- JSON.stringify(from) %>;
+    window.location.href = cancelUrl;
+  }
+
+  function showOptions(){
+    var buildtools = document.getElementById("buildtools");
+    var selectedString = buildtools.options[buildtools.selectedIndex].value;
+    // alert(selectedString);
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body>
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch</b> - DevOps Pipeline as a Service</h4>
+   <h4>An end to end devOps solution</h4>
+ </div>
+ 
+ <h5><a style="float:right" href="/signout">Sign Out</a></h5>
+ 
+ <ul class="tabs  primary-nav">
+  <li class="tabs__item">
+    <a href="/devops" class="tabs__link">Hosting Solutions</a>
+  </li>
+  <li class="tabs__item">
+    <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+  </li>
+</ul>
+
+
+<form action="/automate/configure/buildmavensubmit" id="form1" method="post">
+ <div>
+  <label for="Build Command">Maven Goals:</label>
+  <input type="text" name="buildcommand" id="buildcommand" value=<%- JSON.stringify(buildcommand) %> required data-required-message="Build Command is required.">
+  <div class="info">
+    Maven goals to execute. Eg. clean install
+  </div>
+</div>
+<div>
+  <label for="Pom file path">Pom File Path:</label>
+  <input type="text" name="pomfilepath" id="pomfilepath" value=<%- JSON.stringify(pomfilepath) %> required data-required-message="Pom File Path is required.">
+  <div class="info">
+    If left empty, defaults to pom.xml in root directory. Else Specify the folder where pom.xml is present.
+  </div>
+</div>
+<div>
+  <input type="hidden" name="from" id="from" value=<%- JSON.stringify(from) %>>
+  <input type="button" class="cancel" onclick="cancel()" value="Cancel" />
+  <button type="submit" form="form1">Save Configuration</button>
+</div>
+</form>
+
+
+<div id="footer">
+  <div id="footerContent">
+   <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div>
+ </div>
+</div>
+
+
+</body>
+</html>

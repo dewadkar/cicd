@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="SHORTCUT ICON" href="https://www.moon.com/favicon.ico">
+	<title>Whitewater</title>
+	<link rel="stylesheet"
+	href="/stylesheets/main.css?cacheBust=bDt9pLZIlPuKWO0TQKDm8w==">
+	<link rel="icon" href="https://www.moon.com/favicon.ico">
+	
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel='stylesheet' href='/stylesheets/codepen.css' />
+	<link rel='stylesheet' href='/stylesheets/pipeline.css' />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="scripts/toolinfo.js"></script>
+	<title><%= title %></title>
+	<script>
+		
+                  // Global variables: 
+                  var toolReference={"Slack":"http://www.w3schools.com","Borswerstack":"https://www.browserstack.com","Saucelabs":"https://www.browserstack.com","Jenkins":"https://wiki.jenkins-ci.orggit","RTC":"","Github":"https://github.com","Maven":"http://maven.apache.org/guides/blblu","Bluemix":"https://console.ng.bluemix.net"}
+                  var tools ={
+                  	"tools":{
+                  		"Collaboration":["Slack","Pagerduty:disabled", "Email:disabled","Release Blueprints:disabled","Mural.ly:disabled"],
+                  		"Testing":["Selenium_RQM:disabled","Selenium:disabled", "RQM:disabled","Browserstack", "Saucelabs"],
+                  		"CI":["Jenkins", "Codeship:disabled", "TravisCI", "Snap CI:disabled","Circle CI:disabled", "Bamboo:disabled"],
+                  		"SCM":["RTC","Subversion:disabled","Github"], 
+                  		"Build":["Maven", "Gradle", "Ant:disabled", "Urbancode build:disabled"],
+                  		"Deployment":["NONE:disabled","UCD","SSH:disabled","Bluemix"],
+                  		"Project Metrics":["Sonar"],
+                  		"Database":["mySql:disabled"," MSSQL:disabled","PostgreSQL:disabled", "MongoDB:disabled","DB2:disabled","Cassandra:disabled"],
+                  		"Repo Mgmt":["Archiva:disabled", "Nexus:disabled", "Artifactory:disabled", "NuGet:disabled"],
+                  		"Config":["Chef:disabled", "Puppet:disabled", "Ansible:disabled", "salt:disabled", "Cobbler:disabled"],
+                  		"Release Mgmt":["Urbancode Release:disabled", "Serena Release:disabled"],
+                  		"Logging":["Splunk:disabled", "Logstash:disabled","Graylog:disabled","Logentries:disabled"],
+                  		"Containerization":["Docker:disabled","rkt:disabled", "Kubernetes:disabled", "Packer:disabled", "ElasticBox:disabled","Mesos:disabled"],
+                  		"Security":["Snort:disabled", "Tripwire:disabled", "cyberArk:disabled"]
+										   // "Bitbuket","Mercurial","Helix"
+										   
+										}
+									};
+									var selectedval=[];
+									
+				// end Global variables						
+				
+//document ready 										
+$(document).ready(function(){
+	
+	var elements=[];
+	
+	$('.cell').click( function() {
+		var test = $(".symbol", this).toggleClass("red-cell").text();
+		if(elements[test]==undefined){
+			elements.push(test);
+		}else{
+			elements.push(test);
+		}
+	} );
+	
+	
+	$('#top-label').click(function(){
+		$('#top').slideToggle("slow");
+	});
+
+	
+	
+	
+	$('#test1').click(function(){
+		
+		
+		selectedval.splice(0,selectedval.length);
+		for(var topic in tools.tools){
+			var obj = tools.tools[topic];
+			
+			for ( var key in obj) {
+				crunchifyName = key;
+				crunchifyValue = obj[key].toString();
+				if($('input[id="'+topic+key+'"]:checked').val()==="on"){
+					selectedval.push(crunchifyValue);
+				}
+			}
+		}
+		
+		var data={"title":"test","selectedval":selectedval};
+		$.ajax({
+			url: "/toolsConfigForm",
+															  type: "POST", //send it through get method
+															  data:data.toString(),
+															  success: function(response) {
+															    //Do Something
+															    $('#testForm').append('<input type="hidden" name="selectedval" value="'+selectedval+'" />');
+															    //$('#testForm').append('<input type="hidden" name="title" value="testtitle" />');
+															    
+															    $("#testForm").submit();
+															    
+															    
+															},
+															error: function(xhr) {
+															    //Do Something to handle error
+															    console.log("error redirected");
+															}
+														});
+		
+		
+		
+		
+		
+		
+	});
+
+
+
+});
+//document end    
+
+
+function toolselection(obj){
+	var id = obj.id;
+	var toolCategory = 'tool-category-'+id;
+	if (obj.checked)
+	{
+		$("[id='"+toolCategory+"']").show();
+	}
+	else
+	{
+		$("[id='"+toolCategory+"']").hide();
+	}
+}
+
+
+//windows load
+$( window ).load(function() {
+	
+	
+	
+	var x=document.getElementById("top");  
+	var toolsByCate= document.getElementById("toolsbycat");
+	x.innerHTML="";
+	toolsByCate.innerHTML="";
+	var count=0;
+	
+	var testButton='<button class="btn btn-info dropdown-toggle btn-xs" type="button" data-toggle="dropdown" style="margin-left:14%;" disabled ><span class="glyphicon glyphicon-align-justify" aria-hidden="true" ></span></button><ul class="dropdown-menu" role="menu" style="margin-left:14%;">';
+	var submenu='<ul class="dropdown-menu"><li><a href="#">Dropdown Submenu Link 4.1</a></li><li><a href="#">Dropdown Submenu Link 4.2</a></li></ul>';
+	
+	
+	
+	for(var topic in tools.tools){
+		var obj = tools.tools[topic];
+		
+		if(count >= 5){ 
+			x.innerHTML +='<div class="col-xs-4 col-md-4"><section title=".roundedOne"><div class="roundedOne"><input type="checkbox" onClick="toolselection(this)"class="toolsss" value="None" id="'+topic+'"/><label for="roundedOne" style="margin-left:8px;">  '+topic+'</label></div></section></div>';
+		}else{
+			x.innerHTML +='<div class="col-xs-4 col-md-4"><section title=".roundedOne"><div class="roundedOne"><input type="checkbox" onClick="toolselection(this)"class="toolsss" value="None" id="'+topic+'" checked/><label for="roundedOne" style="margin-left:8px;">  '+topic+'</label></div></section></div>';
+		}	
+		
+		
+		var startHtml='<div class="col-xs-6 col-md-4" id="tool-category-'+topic+'"><div class="panel panel-primary">';
+		if(count >= 5){
+			startHtml='<div class="col-xs-6 col-md-4" id="tool-category-'+topic+'" style="display:none;"><div class="panel panel-primary">';
+		}
+		count++;
+		var panelBody='<div class="panel-body"><ul>';
+		var divEnd=	'</ul></div> </div></div>';
+		var elementList="";
+		var infoButtons='';
+		
+		for ( var key in obj) {
+			crunchifyName = key;
+			crunchifyValue = obj[key].toString();
+										  			// console.log(crunchifyValue);
+
+										  			if(crunchifyValue.indexOf(":")<0){
+										  				var liElement= '<li><div class="wrapper"><input type="checkbox" name="'+topic+'" id="'+topic+key+'" class="input.radio:empty"/><label id="username" for="'+topic+key+'">'+crunchifyValue+'</label><div class="tooltip">'+getToolInfo(crunchifyValue)+'</div></div></li>';
+										  			}										        
+										  			if(crunchifyValue.indexOf(":")>-1){
+										  				crunchifyValue = crunchifyValue.substring(0,crunchifyValue.indexOf(":"));
+										  				liElement= '<li><div class="disabled wrapper"><input disabled type="checkbox" name="'+topic+'" id="'+topic+key+'" class="input.radio:empty"/><label for="'+topic+key+'">'+crunchifyValue+'</label><div class="tooltip">'+getToolInfo(crunchifyValue)+'</div></div></li>';
+										  			}
+										  			elementList+=liElement;	  	
+										  			infoButtons+='<li id="testmenu" class="dropdown"><a href="'+toolReference[crunchifyValue]+'" class="dropdown-toggle disabled" data-toggle="dropdown" >'+crunchifyValue+'</a></li>';	
+										  		}
+										  		
+										  		var finaltestButton=testButton+infoButtons+' </ul>';
+										  		var panelHeading ='<div class="panel-heading"><div class="dropup"><h3 class="panel-title">'+topic+''+finaltestButton+'</h3></div></div>';
+										  		
+										  		toolsByCate.innerHTML+=startHtml+panelHeading+panelBody+elementList+divEnd;	
+										  		
+										  		
+										  		
+										  		
+										  		
+										  	}      
+										  });
+//windows end    
+
+
+
+</script>
+</head>
+<body>
+	<header class="_band--HEADER">
+		<div class="_band--body">
+			<div class="_full">
+				<nav class="header">
+					<ul class="header--brand">
+						<li><a class="header--link" href="/">IBM <span
+							class="header--title">Whitewater Tool Chain</span></a></li>
+						</ul>
+					<!--
+					<ul class="header--resources">
+						<li class="tabs--tab"><a class="tabs--link" href="/teams">Teams</a></li>
+						<li class="tabs--tab"><a class="tabs--link"
+							href="/teams/directory">Directory</a></li>
+					</ul>
+				-->
+			</nav>
+		</div>
+	</div>
+</header>
+
+<br>
+<div class="tool-selection " >
+	<div class="panel-group" id="accordion">
+		<div class="panel panel-info" id="panel1">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-target="#collapseOne" 
+					href="#collapseOne">
+					<u>Tool Categories<u>
+					</a>
+				</h4>
+			</div>
+		</div>
+	</div>       
+	
+	<div id="collapseOne" class="panel-collapse collapse in">
+		<div class="panel-body">
+			<div id="top"></div>
+		</div>								
+	</div>
+	<form name="test" method="POST" id="testForm" action="/toolsConfigForm">
+		<div class="tool-separation" >
+			<div class="row" id="toolsbycat">
+			</div>
+		</div>			 
+		<br>
+		<div class="button">  
+			<button type="button" class="btn btn-success" id="test1">Submit</button>
+			<button type="button" class="btn btn-default">Reset</button>
+		</div>
+	</form>  
+	
+</body>
+
+</html>

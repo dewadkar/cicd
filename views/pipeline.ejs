@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/buildprocess.css' />
+
+	<link rel='stylesheet' href='/stylesheets/pipeline.css' />
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+	<script>
+		var repositoryURL;
+		function showrepos(){
+			var token = <%- JSON.stringify(token) %>;
+			var url='https://github.moon.com/api/v3/user/repos?access_token='+token;
+
+			$.ajax({url: url, success: function(result){
+				var repos = result;
+				var	repositories = "";
+				for(i = 0; i < repos.length; i++) {
+					var repositoryHref ="<div style=margin-left:50px;><a href=# onclick=showRepoInfo('"+repos[i].html_url+"');><b>"+repos[i].full_name+"</b></a></div>";					
+					repositories += repositoryHref; 
+				}		
+				// alert(repositories);
+				document.getElementById("sidebar").style.display = 'block';
+				document.getElementById("main").style.display = 'block';
+				document.getElementById("page-wrap").style.display = 'none';
+				document.getElementById("gitLogin").style.display = 'none';		
+				document.getElementById("logwait").style.display = 'none';
+				document.getElementById("sidebar").innerHTML = repositories;
+			}});
+		}
+
+		function showRepoInfo(repoURL){
+			repositoryURL = repoURL;
+
+			var repositoryName = repoURL.substring(repoURL.lastIndexOf("/") + 1, repoURL.length);
+
+			var gitHref = "<h2>" + repositoryName + "</h2> <a href=" + repoURL +">" + repoURL + "</a>";
+			document.getElementById("note").innerHTML = gitHref;
+			document.getElementById("page-wrap").style.display = 'block';
+		}
+
+		function callGitAuthentication(){			
+			document.getElementById("gitLogin").style.display = 'none';
+			document.getElementById("logwait").style.display = 'block';
+			window.location.href= window.location.origin+'/githubHandshake?email=paranjan@in.moon.com';
+		}
+
+
+		function init(){
+			var from = window.location.href.toString();
+			if(from.indexOf('pipeline') > 0 || from.indexOf('signout') > 0){
+				document.getElementById("gitLogin").style.display = 'block';
+			}
+
+			document.getElementById("sidebar").style.display = 'none';
+			document.getElementById("main").style.display = 'none';
+			document.getElementById("logwait").style.display = 'none';
+			var token = <%- JSON.stringify(token) %>;
+			
+			if(token != ""){
+				document.getElementById("logwait").style.display = 'block';
+				document.getElementById("gitLogin").style.display = 'none';
+				showrepos();
+			}			
+		}
+
+
+	</script>    
+
+</head>
+<body onload="init()">	
+
+
+	<div id="wrap">
+		<div><div id="header">Delivery Pipeline Setup </div><div style="text-align:right"><a href='/signout'>Sign out</a></div></div>
+		<div id="body">
+			<div id="logwait" align="center" style="display:none">
+				<p>&nbsp;</p><br/>
+				<img id="logwait" src="/logwait.gif"/>
+			</div>
+
+			<div id="gitLogin" style="display:none">
+				<p>&nbsp;</p><br/>
+				<a href="#" class="btn" onclick=callGitAuthentication()>Login with Github</a>
+			</div>	
+
+			<div id="sidebar" style="display:none">
+			</div>
+
+
+			<div id="main" style="display:none">
+				<div id="note" class="note">
+					<p><h2>Select a repository.</h2></p>
+				</div>
+				<!--<%-JSON.stringify(email)%>-->
+			</div>
+
+			<div id="page-wrap" style="display:none">
+
+				<a class="toolButton" href="#slackForm" style="display:inline">Get Build Notifications on Slack</a>
+				<a class="toolButton" href="#buildForm" style="display:inline">Build Your Code</a>
+				<a class="toolButton" href="#sonarForm" style="display:inline">See code quality on Sonar</a>
+				<a class="toolButton" href="#bluemixForm" style="display:inline">Deploy on Bluemix</a>
+
+
+				<div id="slackForm" class="modalDialog">
+					<div>
+						<a href="#close" title="Close" class="close">X</a>
+						<h2>Modal Box 1</h2>
+						<input type="text" id="slackToken"/>
+					</div>
+				</div>
+
+				<div id="sonarForm" class="modalDialog">
+					<div>
+						<a href="#close" title="Close" class="close">X</a>
+						<h2>Modal Box 2</h2>
+						<input type="text" id="projectKey"/><br/>
+						<input type="text" id="projectName"/><br/>
+						<input type="text" id="sourceFolder"/><br/>
+						<input type="text" id="language"/><br/>
+					</div>
+				</div>
+
+				<div id="bluemixForm" class="modalDialog">
+					<div>
+						<a href="#close" title="Close" class="close">X</a>
+						<h2>Modal Box 2</h2>
+						<input type="text" id="bluemixTarget"/>
+						<input type="text" id="bluemixUserId"/>
+						<input type="text" id="bluemixPassword"/>
+						<input type="text" id="bluemixOrg"/>
+						<input type="text" id="bluemixSpace"/>
+						<input type="text" id="bluemixManifestFileLocation"/>
+					</div>
+				</div>
+
+				<div id="buildForm" class="modalDialog">
+					<div>
+						<a href="#close" title="Close" class="close">X</a>
+						<h2>Modal Box 2</h2>
+						<input type="text" id="mavenCommand"/>
+						<input type="text" id="mavenPomFileLocation"/>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

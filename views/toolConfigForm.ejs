@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+  
+  
+   <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="SHORTCUT ICON" href="https://www.moon.com/favicon.ico">
+<title>Whitewater</title>
+<link rel="stylesheet"
+	href="/stylesheets/main.css?cacheBust=bDt9pLZIlPuKWO0TQKDm8w==">
+<link rel="icon" href="https://www.moon.com/favicon.ico">
+    
+  
+  
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+     
+	  <link rel='stylesheet' href='/stylesheets/pipeline.css' />
+	       <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	  
+	 <script type="text/javascript">
+	 
+	
+	
+	 var toolFields = {
+							  "Slack":["auth token"],
+							  "Mural.ly":["room name"],
+							  "Hubot":["server ip","server userid","server password","server hubot home dir"],
+							  "Maven":["command","pom file path"],
+							  "RTC":["repository url","build defination","server user id","server password"],
+							  "Selenium_RQM":["test case(es) jar path","remote-exec-ant-script","user id","password"],
+							  "Jenkins":["host URL","userid","password","jobname"],
+							  "UCD":["host URL","user id","password","component","application","environment","process"],
+							  "Bluemix":["target","userid","password","organization","space","manifest yml file path"],
+							  "Github":["repo url","user id","password","branch name"],
+							  "Browserstack":["user id","access key"],
+							  "Saucelabs":["user id","access key"], 
+							  "Selenium":["jar path","user id","password"],
+							  "Sonar":["project key","project name", "source folder", "language"],
+							  "TravisCI":["github auth token"],
+							  "Gradle":["command"],
+							  "Ant":[],
+							  "Meister":[],
+							  "Buildr":[],
+							  "Urbancode Build":[],
+							  "Git":[],
+							  "Subversion":[],
+							  "Bitbuket":[],
+							  "Mercurial":[],
+							  "Helix":[],
+							  "Ssh":[],
+							  "Go":[],
+							  "Urbancode":[],
+};
+
+ var prop = {};
+ var myTools='';
+ 
+ function myFunction(x) {
+    x.style.background = "lightgray";
+}
+
+function onblurfunction(x) {
+    x.style.background = "";
+}
+ $( window ).load(function() {
+	 
+					 
+			
+			  var selectedTools ="<%= JSON.stringify(selectedval) %>";
+			 myTools=selectedTools;
+			 
+			 var x=document.getElementById("configFields");  
+			 x.innerHTML="";
+			var pls="";
+		    var startHtml='<li>';
+		    var endHtml='</li>';  
+		    var rowTitle=""; 
+		    
+             for(var tool in toolFields)
+             {
+                 if(selectedTools.indexOf(tool) < 0){
+                 	 continue; 
+                 }
+		    var buyButton='<button type="button" class="btn btn-danger btn-xs" id="'+tool+'" onclick="ClickEvent(this)">buy licence</button>';
+		    
+		    var mylicence='<button type="button" id="'+tool+'" class="btn btn-link" onclick="ClickEventLicence(this)">Configure Existing</button>';
+		             var properties="";
+		             var obj = toolFields[tool];
+		             rowTitle=tool;
+					 var provisioning='<button type="button" class="btn btn-info btn-xs" id="provision-'+rowTitle+'">provision</button>'			             
+		             if(Object.keys(obj).length>0){
+				             for ( var key in obj) {
+															crunchifyName = key;
+															crunchifyValue = obj[key].toString();
+															var name=tool+crunchifyValue;
+															name= name.replace(/\s+/g, '');	
+															if(crunchifyValue.indexOf('password')>=0){
+																properties+='    <input type="password" placeholder=":'+tool+' '+crunchifyValue+'" onfocus="myFunction(this)" onblur="onblurfunction(this)" class="focus" name="'+name+'">'
+															}else{
+									              				properties+='    <input type="text" placeholder=":'+tool+' '+crunchifyValue+'" onfocus="myFunction(this)" onblur="onblurfunction(this)" class="focus" name="'+name+'">'
+									              			}
+								}				  			
+				             
+							 if(tool == "Jenkins"){
+							    properties+='<br><label> Want to provision your own Jenkins?</label>';
+								properties+='<br><label> Host: <label>';
+								properties+='<input type="text" class="focus" id="jenkinsHostID" />';								
+								properties+='<label> Email: <label>';
+								properties+='<input type="text" class="focus" id="jenkinsEmail" />';
+							    properties+='<button id="provision-button" class="btn btn-success" type="button">Provision</button>'
+							 }
+							 
+						      pls+='<br><b>'+rowTitle+'</b> '+mylicence+buyButton+'</br>'+startHtml+properties+ endHtml;   
+				      }
+		             
+             }
+              x.innerHTML+=pls;
+			  
+			 
+			 $("#provision-button").click(function(){
+									        
+											//var kubernetesBaseUrl="http://9.45.125.101:8088/?cmd=/home/caasadmin/jenkins-master.sh";
+											var kubernetesBaseUrl="http://dpev380.innovate.moon.com:8088/?cmd=cd /home/dpeuser/workspace/kube-app; ./jenkins-master.sh "
+											var ajaxUrl = kubernetesBaseUrl + ' -n '+ $('#jenkinsHostID').val() +  ' -e '+ $('#jenkinsEmail').val();
+											//http://dpev194.innovate.moon.com:8088/?cmd=cd /home/abhay/workspace/kuberneter-tests;%20./jenkins-master.sh%20-n%20wwtes5%20-e%20abhay.ratnaparkhi@in.moon.com
+											
+											
+											$.ajax({
+													 
+													url:ajaxUrl,
+													crossDomain: true,
+													type: 'GET',
+													dataType: 'json',
+													success: function(result){
+														$('input[name=JenkinshostURL]').val(result.url);
+													},
+													error: function (xhr, ajaxOptions, thrownError) {
+														$('input[name=JenkinshostURL]').val(thrownError);
+													}
+												   });
+			}); 
+	        
+				
+				
+	 
+ });
+
+
+
+$(document).ready(function(){
+ 
+						 			 var elements=[];
+						 
+									  $('#configsubmit').click( function() {
+									        var isValid=true;
+									       var nodes = document.querySelectorAll("#configFields input[type=text]");
+									  		for (var i=0; i<nodes.length; i++){
+									  		           var temp=nodes[i].value;
+									  		           if(!temp){
+									  		             nodes[i].style.backgroundColor = "gray";
+									  		             isValid=false;
+									  		           }
+									  		     
+									  		}
+									  		
+									  		var nodes = document.querySelectorAll("#configFields input[type=password]");
+									  		for (var i=0; i<nodes.length; i++){
+									  		           var temp=nodes[i].value;
+									  		           if(!temp){
+									  		             nodes[i].style.backgroundColor = "gray";
+									  		             isValid=false;
+									  		           }
+									  		     
+									  		}
+									  
+										if(isValid){
+											    $('#form').append('<input type="hidden" name="selectedTools" value="'+myTools+'" />');
+										    	$('#form').submit();
+										    }
+													    
+									  } );
+									  
+							  						//	  "Bluemix":["target","userid","password","organization","space","manifest.yml file path"],
+							  
+
+												prop.bluemixtarget='https://api.stage1.ng.bluemix.net';
+												prop.bluemixuserid='paranjan@in.moon.com';
+												prop.bluemixpassword='sdfsdfd';
+												prop.bluemixorganization='paranjan@in.moon.com';
+												prop.bluemixspace='jenkins';
+												prop.bluemixmanifestymlfilepath='manifest.yml';	
+													
+													
+											  prop.sonarprojectkey="projectkey";
+											  prop.sonarprojectname="sonar_project_name";
+											  prop.sonarsourcefolder="src";
+											  prop.sonarlanguage="java";		
+													
+											   prop.githubrepourl='git@github.moon.com:paranjan/devops-demo.git';
+											   prop.githubrepourl='git@github.moon.com:paranjan/toolstitch-demo.git';
+											   
+											   prop.githubuserid='ddewadkar@in.moon.com';
+											   prop.githubpassword='abcdef';
+											   prop.githubbranchname='master';
+											   
+											   prop.browserstackuserid='paritoshranjan1';
+											   prop.browserstackauthtoken='UAVwNJGSyxntxToxrEe5';
+											   	
+											   	
+											   		
+												prop.slackauthtoken='g1FA7Imb5kO3SMojFxrUngHo';	
+												
+												prop.mavencommand='clean install -Dmaven.test.skip=true';
+												prop.mavenpomfilepath='pom.xml';
+												
+												prop.gradlecommand='gradle build';
+												
+												prop.rtcrepositoryurl='https://igartctrain02.swg.usma.moon.com:9443/ccm/';
+												prop.rtcbuilddefination='CIODevops RTC Urbancode build';
+												prop.rtcserveruserid='NO VALUE';
+												prop.rtcserverpassword='NO VALUE';
+												
+												var milliseconds = new Date().getTime();
+												
+												prop.jenkinshosturl = 'http://dpev179.innovate.moon.com:8080/';
+												prop.jenkinsuserid = 'admin';
+												prop.jenkinspassword = 'webahead1';
+												prop.jenkinsjobname='demo-job-'+milliseconds;
+												
+												 prop.ucdhosturl='https://dpev685.innovate.moon.com:8443/';
+									            prop.ucduserid='dpeuser';
+									            prop.ucpassword='dpe4you1';
+									            prop.ucdcomponent='ciolab-services';
+									            prop.ucdapplication='ciolab-services-app';
+									            prop.ucdenvironment='development';
+									            prop.ucdprocess='ciolab-services-app-deployment-process';
+						            
+							  	  				 prop.saucelabstestingjobname='http://paranjan:bdddfabf-1ca4-4658-a732-3c7c384c7c44@ondemand.saucelabs.com:80/wd/hub';
+						            
+										      prop.dedicatedbluemixurl = 'https://api.stage1.ng.bluemix.net';
+											  prop.dedicatedbluemixapplicationpath = 'jenkins-cloudfoundry-plugin-demo/target/ciolabservices.war';
+											  prop.dedicatedbluemixdomain='stage1.mybluemix.net';
+											  prop.dedicatedbluemixurluserid ='ddewadkar@in.moon.com'; 
+										      prop.dedicatedbluemixjenkinsdemo='test-internal-bluemix-on-saucelabs';
+								
+										    prop.saucelabsuserid='paranjan';
+										    prop.saucelabsaccesskey='bdddfabf-1ca4-4658-a732-3c7c384c7c44';
+										    
+										    prop.bowserstackUserid='paritoshranjan1';
+										    prop.bowserstackAccesskey='UAVwNJGSyxntxToxrEe5';
+										    
+										    prop.traviscigithubauthtoken="bdddfabf-1ca4-4658-a732-3c7c384c7c44";
+												
+												
+									  $('#autofill').click(function(){
+									  		var nodes = document.querySelectorAll("#configFields input[type=text]");
+									  		for (var i=0; i<nodes.length; i++){
+									  		      var temp=nodes[i].name.toLowerCase();
+									  		      if(prop[temp]){
+									  		      $(nodes[i]).val(prop[temp]);
+									  		      }
+									  		}
+									  });
+									  
+
+
+ 			$("input[type=text]").keypress(function () {
+                $(this).css("color", "#ffffff");
+            });
+									  
+});					
+					 var licence={"Slack":"https://whitewater.moon.com/","Mural.ly":"https://whitewater.moon.com/","RTC":"https://whitewater.moon.com/",
+					"Jenkins":"https://whitewater.moon.com/","Saucelabs":"https://saucelabs.com/pricing","Browserstack":"https://www.browserstack.com/accounts/subscriptions",
+					"Dedicated Bluemix": "https://console.w3moon.bluemix.net","Github":"https://whitewater.moon.com/"
+					};
+					 function ClickEvent(obj){
+					 		var id=obj.id;
+					 		var url='https://whitewater.moon.com/';
+					 		if(licence[id]){
+				 			   url=licence[id];
+				 			}
+					 		
+				 			   window.open(url,"popupname",'scrollbars=1,height=650,width=1050');
+					}
+					
+					function ClickEventLicence(obj){
+				  		var nodes = document.querySelectorAll("#configFields input[type=text]");
+			            for (var i=0; i<nodes.length; i++){
+									  		      var temp=nodes[i].name.toLowerCase();
+									  		      if(prop[temp]){
+									  		     	 if(temp.indexOf(obj.id.toLowerCase())>=0){
+									  		    		  $(nodes[i]).val(prop[temp]);
+									  		    	 }
+									  		      }
+									  		}		
+						
+					}
+	 
+	 
+
+	 
+	 
+	 </script>
+	 
+	 
+  </head>
+  <body>
+  
+   <header class="_band--HEADER">
+		<div class="_band--body">
+			<div class="_full">
+				<nav class="header">
+					<ul class="header--brand">
+						<li><a class="header--link" href="/">IBM <span
+								class="header--title">Whitewater Tool Chain</span></a></li>
+					</ul>
+					
+				</nav>
+			</div>
+		</div>
+	</header>
+  
+  
+  
+  
+  
+  
+  <div id="page-wrap">
+  		    		    <h1><%= title %></h1>    
+				    	<h2>Configuration for CI - CD Platform </h2>
+					  	<div align="right">
+					  		
+					  		<button type="button" id="autofill" class="btn btn-link">existing config</button>
+					  	</div>
+					  	
+					  <form action="/progress" method="POST" id="form">
+								  <div id="selections">
+								  </div>
+								  
+								  <ul class="input-list style-4 clearfix" id="configFields">
+								  </ul>
+								
+								<br>
+								<div class="button">  
+										<button type="button" class="btn btn-success" id="configsubmit">Submit</button>
+										<button type="button" class="btn btn-default">Reset</button>
+							    </div>
+  					 </form> 
+    
+    </div>
+    
+  </body>
+  
+ </html>

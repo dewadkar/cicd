@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <jenkins.plugins.slack.SlackNotifier_-SlackJobProperty plugin="slack@1.8.1">
+      <teamDomain></teamDomain>
+      <token></token>
+      <room></room>
+      <startNotification>true</startNotification>
+      <notifySuccess>true</notifySuccess>
+      <notifyAborted>true</notifyAborted>
+      <notifyNotBuilt>true</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeTestSummary>false</includeTestSummary>
+      <showCommitList>false</showCommitList>
+      <includeCustomMessage>false</includeCustomMessage>
+      <customMessage></customMessage>
+    </jenkins.plugins.slack.SlackNotifier_-SlackJobProperty>
+  </properties>
+ <scm class="com.moon.team.build.internal.hjplugin.RTCScm" plugin="teamconcert@1.1.9.7">
+    <overrideGlobal>true</overrideGlobal>
+    <buildTool>RTC6.0.1</buildTool>
+    <serverURI>https://igartctrain02.swg.usma.moon.com:9443/ccm/</serverURI>
+    <timeout>480</timeout>
+    <credentialsId>a586a172-25ce-46d7-9ddf-1f5905927419</credentialsId>
+    <buildType>
+      <value>buildWorkspace</value>
+      <buildWorkspace>CIODevops-RTCStream-Workspace</buildWorkspace>
+    </buildType>
+    <buildTypeStr>buildWorkspace</buildTypeStr>
+    <buildWorkspace>CIODevops-RTCStream-Workspace</buildWorkspace>
+    <avoidUsingToolkit>true</avoidUsingToolkit>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Maven>
+      <targets>clean install -Dmaven.test.skip=true</targets>
+      <pom>rtc-devops/pom.xml</pom>
+      <usePrivateRepository>false</usePrivateRepository>
+      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+      <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+    </hudson.tasks.Maven>
+  </builders>
+ <publishers>
+    <com.urbancode.ds.jenkins.plugins.urbandeploypublisher.UrbanDeployPublisher plugin="moon-ucdeploy-publisher@1.2.7">
+      <siteName>udeploy-server-dpev685</siteName>
+      <useAnotherUser>false</useAnotherUser>
+      <anotherUser></anotherUser>
+      <anotherPassword>FlTuq7PiijOt6quwWRbvJg==</anotherPassword>
+      <component>ciolab-services</component>
+      <baseDir>${WORKSPACE}/rtc-devops/target/</baseDir>
+      <directoryOffset></directoryOffset>
+      <fileIncludePatterns>rtc-devops.war</fileIncludePatterns>
+      <fileExcludePatterns></fileExcludePatterns>
+      <versionName>${BUILD_NUMBER}+1500</versionName>
+      <skip>false</skip>
+      <deploy>false</deploy>
+      <deployApp>ciolab-services-app</deployApp>
+      <deployEnv>development</deployEnv>
+      <deployProc>ciolab-services-app-deployment-process</deployProc>
+      <properties></properties>
+      <description></description>
+    </com.urbancode.ds.jenkins.plugins.urbandeploypublisher.UrbanDeployPublisher>
+    <jenkins.plugins.slack.SlackNotifier plugin="slack@1.8.1">
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <buildServerUrl>http://dpev223.innovate.moon.com:8080/</buildServerUrl>
+      <room></room>
+    </jenkins.plugins.slack.SlackNotifier>
+  </publishers>
+  <buildWrappers/>
+</project>

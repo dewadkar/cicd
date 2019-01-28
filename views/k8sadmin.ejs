@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+  <link rel='stylesheet' href='/stylesheets/devops.css' />
+  <link rel='stylesheet' href='/stylesheets/tabs.css' />
+  <link rel='stylesheet' href='/stylesheets/table.css' />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/scripts/bootbox.min.js"></script>
+
+  <script type="text/javascript">
+    function manageTeams(){
+      window.location.href= window.location.origin+'/admin/superadmin';
+    }
+  </script>
+
+  <script type="text/javascript">
+    $(document)
+    .ready(
+      function() {
+
+        var namespacesAsString = "<%= namespaces%>";
+        var namespaces = JSON.stringify(namespacesAsString).replace(/"/g, '')
+        .split(',');
+        var checkboxHTML = '';
+        for (var indexCounter = 0; indexCounter < namespaces.length; indexCounter++) {
+          if(namespaces[indexCounter].indexOf('w')!=0){
+            continue;
+          }
+          checkboxHTML += ' <div class="radio"> <label> <input type="radio" name="optradio" value="'+namespaces[indexCounter]+'">'
+          + namespaces[indexCounter] + '</label></div>';
+        }
+        var totalNamespacesHTML = '<p> Total Namespaces : ' + namespaces.length
+        + '</p>';
+
+        var namespaceDiv = document.getElementById("namespaces");
+        namespaceDiv.innerHTML = totalNamespacesHTML + checkboxHTML;
+
+
+        $("#reset").click(function() {
+          window.location.href ="/devops";
+        });
+
+      });
+
+    $(window).load(function() {
+
+      $("#removenamespaces").click(function() {
+
+        var selectedNamespaces = [];
+        $.each($("input[type=radio]:checked"), function(){            
+          selectedNamespaces.push($(this).val());
+        });
+
+        bootbox.confirm("Are you sure? You are deleting "+selectedNamespaces.length+" namespaces.", function(result) {
+          if(result){
+            $('#form').append('<input type="hidden" name="namespace" value="'+selectedNamespaces+'" />');
+            $('#form').submit();
+          }else{
+            console.log(" You cancelled :"+JSON.stringify(selectedNamespaces));
+          }
+        }); 
+
+      });  
+
+    });
+  </script>
+
+</head>
+<body>
+
+  <div id="header" align="center">
+    <h4>Whitewater <b>ToolStitch Pattern Builder</b></h4>
+
+    <h5 align="right">Team Name - <b><%- JSON.stringify(team) %>
+     <b>&nbsp;&nbsp;User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> 
+       Sign Out &nbsp;&nbsp;
+     </a>
+   </h5>   
+
+   <ul class="tabs  primary-nav">
+
+   </ul>
+ </div>
+
+ <div>      
+   <a href="#" class="btn" onclick=manageTeams()>Manage Teams</a>
+ </div>     
+
+ <div style="float:left">  
+  <form action="/k8s/admin/namespaces/delete" method="POST" id="form">
+    <div id="namespaces"></div>
+    <div class="button">
+     <button type="button" class="btn btn-danger" id="removenamespaces">Delete Namespace</button>
+     <button type="button" class="btn btn-default" id="reset">Cancel</button>
+   </div>
+ </form> 
+</div>
+
+
+<div id="footer">
+  <div id="footerContent">
+    Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>    
+  </div>
+</div>
+
+
+</body>
+</html>

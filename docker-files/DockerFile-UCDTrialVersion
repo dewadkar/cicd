@@ -1,0 +1,30 @@
+# BUILD USING:  docker build --rm -t ciocldreg101.innovate.ibm.com/ciohcld/UCD
+# RUN USING: docker run -d --name jenkins-master -it -p 9080:9080 ciocldreg101.innovate.ibm.com/ciohcld/UCD
+
+FROM ciocldreg101.innovate.ibm.com/ciohcld/centos7
+
+MAINTAINER Vijay Ladla email:vijay.ladla@in.ibm.com
+
+# Install necessary packages.
+RUN yum update -y && yum install wget java-1.7.0-openjdk unzip
+    initscripts maven ant git bind-utils -y && \
+    yum clean all
+
+# Change ownership
+RUN useradd -d /home/ucd -s /bin/bash ucd
+
+USER ucd
+WORKDIR /home/ucd/
+
+# Download UCD
+COPY URBANCODE_DEPLOY_6.2.0_EN_EVAL.zip .
+RUN unzip URBANCODE_DEPLOY_6.2.0_EN_EVAL.zip ; sync
+COPY install.properties ibm-ucd-install/
+RUN chmod -R 755 ibm-ucd-install && \
+    /bin/sh ibm-ucd-install/install-server.sh && \
+    rm -rf ibm-ucd-install && \
+    sed -i 's/@SERVER_USER@/ucd/g ; s/@SERVER_GROUP@/ucd/g' /home/ucd/ucdserver/bin/init/server
+
+EXPOSE 9080
+
+CMD /home/ucd/ucdserver/bin/init/server start

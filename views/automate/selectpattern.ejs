@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+ <script type="text/javascript">
+
+   function findPatterns(){
+
+    document.getElementById('pattern1').style.display = "none";
+    document.getElementById('pattern2').style.display = "none";
+    document.getElementById('pattern3').style.display = "none";
+    document.getElementById('pattern4').style.display = "none";
+    document.getElementById('pattern5').style.display = "none";
+    document.getElementById('pattern6').style.display = "none";
+    document.getElementById('pattern7').style.display = "none";
+    document.getElementById('pattern8').style.display = "none";
+    document.getElementById('pattern9').style.display = "none";
+    document.getElementById('pattern10').style.display = "none";
+    document.getElementById('pattern11').style.display = "none";
+    document.getElementById('pattern12').style.display = "none";
+    document.getElementById('pattern15').style.display = "none";
+
+    var pattern1 = "jenkins,rtc,maven/mvn,sonar,bluemix,slack";
+    var pattern2 = "jenkins,rtc,ant,sonar,artifactory,ucd/urbancode,slack";    
+    var pattern3 = "travis ci,github,npm/node js,sonar,moon bluemix,slack";
+    var pattern4 = "travis ci,github,maven/mvn,sonar,moon bluemix,slack";
+    var pattern5 = "jenkins,github,python,sonar,docker,kubernetes,slack";
+    var pattern6 = "jenkins,github,gradle,sonar,artifactory,tomcat,slack";
+    var pattern7 = "jenkins,rtc,gradle,sonar,artifactory,tomcat,slack";
+    var pattern8 = "jenkins,rtc,ant,sonar,artifactory,tomcat,slack";
+    var pattern9 = "travis ci,github,gradle,sonar,github releases,bluemix,slack";
+    var pattern10 = "jenkins,rtc,maven/mvn,sonar,ucd/urbancode,slack";
+    var pattern11 = "travis ci,github,ant,sonar,artifactory,bluemix,slack";
+    var pattern12 = "jenkins,rtc,npm/node js,artifactory,bluemix,slack";
+    var pattern15 = "jenkins,github,maven,sonar,bluemix,slack,artifactory";
+
+    var pattern1match = false;
+    var pattern2match = false;
+    var pattern3match = false;
+    var pattern4match = false;
+    var pattern5match = false;
+    var pattern6match = false;
+    var pattern7match = false;
+    var pattern8match = false;
+    var pattern9match = false;
+    var pattern10match = false;
+    var pattern11match = false;
+    var pattern12match = false;
+    var pattern15match = false;
+
+    var toolQuery = document.getElementById('toolQuery').value;
+
+    if(toolQuery.trim() == ""){
+      toolQuery = "blah";
+      document.getElementById('pattern1').style.display = "block";
+      document.getElementById('pattern2').style.display = "block";
+      document.getElementById('pattern3').style.display = "block";
+      document.getElementById('pattern4').style.display = "block";
+      document.getElementById('pattern5').style.display = "block";
+      document.getElementById('pattern6').style.display = "block";
+      document.getElementById('pattern7').style.display = "block";
+      document.getElementById('pattern8').style.display = "block";
+      document.getElementById('pattern9').style.display = "block";
+      document.getElementById('pattern10').style.display = "block";
+      document.getElementById('pattern11').style.display = "block";
+      document.getElementById('pattern12').style.display = "block";
+      document.getElementById('pattern15').style.display = "block";
+    }
+    var toolNames = toolQuery.split(',');
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern1.indexOf(toolName)>-1){
+        pattern1match = true;
+      }else {
+        pattern1match = false;
+        break;
+      }      
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern2.indexOf(toolName)>-1){
+        pattern2match = true;
+      }else {
+        pattern2match = false;
+        break;
+      }  
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern3.indexOf(toolName)>-1){
+        pattern3match = true;
+      }else {
+        pattern3match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern4.indexOf(toolName)>-1){
+        pattern4match = true;
+      }else {
+        pattern4match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern5.indexOf(toolName)>-1){
+        pattern5match = true;
+      }else {
+        pattern5match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern6.indexOf(toolName)>-1){
+        pattern6match = true;
+      }else {
+        pattern6match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern7.indexOf(toolName)>-1){
+        pattern7match = true;
+      }else {
+        pattern7match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern8.indexOf(toolName)>-1){
+        pattern8match = true;
+      }else {
+        pattern8match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern9.indexOf(toolName)>-1){
+        pattern9match = true;
+      }else {
+        pattern9match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern10.indexOf(toolName)>-1){
+        pattern10match = true;
+      }else {
+        pattern10match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern11.indexOf(toolName)>-1){
+        pattern11match = true;
+      }else {
+        pattern11match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern12.indexOf(toolName)>-1){
+        pattern12match = true;
+      }else {
+        pattern12match = false;
+        break;
+      }    
+    }
+
+    for(var i = 0; i < toolNames.length; i++) {
+      var toolName = toolNames[i].trim();
+      if(pattern15.indexOf(toolName)>-1){
+        pattern15match = true;
+      }else {
+        pattern15match = false;
+        break;
+      }    
+    }
+
+    if(pattern1match){
+      document.getElementById('pattern1').style.display = "block";
+    }
+    if(pattern2match){
+      document.getElementById('pattern2').style.display = "block";      
+    }
+    if(pattern3match){
+      document.getElementById('pattern3').style.display = "block";
+    }
+    if(pattern4match){
+      document.getElementById('pattern4').style.display = "block";
+    }
+    if(pattern5match){
+      document.getElementById('pattern5').style.display = "block";
+    }
+    if(pattern6match){
+      document.getElementById('pattern6').style.display = "block";
+    }
+    if(pattern7match){
+      document.getElementById('pattern7').style.display = "block";
+    }
+    if(pattern8match){
+      document.getElementById('pattern8').style.display = "block";
+    }
+    if(pattern9match){
+      document.getElementById('pattern9').style.display = "block";
+    }
+    if(pattern10match){
+      document.getElementById('pattern10').style.display = "block";
+    }
+    if(pattern11match){
+      document.getElementById('pattern11').style.display = "block";
+    }
+    if(pattern12match){
+      document.getElementById('pattern12').style.display = "block";
+    }
+    if(pattern15match){
+      document.getElementById('pattern15').style.display = "block";
+    }
+
+
+    //alert("Pattern 1 : " + pattern1match+ ", Pattern 2 : " + pattern2match + ", Pattern 3 : " + pattern3match);
+  }
+
+  function host(tool){
+    var choice = confirm("Host " + tool);
+    if (choice == true) {
+      var ajaxURLBuild="/host?tool="+tool;
+      $.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+        alert(JSON.stringify(result));
+      }});
+
+    } 
+  }
+
+  function destroy(tool){
+    var choice = confirm("Destroy " + tool);
+    if (choice == true) {
+      alert(tool+ " will be destroyed");
+      var ajaxURLBuild="/destroy?tool=" + tool;
+
+      $.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+        alert(result);
+      }});
+    }     
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body>
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4> <!-- DevOps Pipeline as a Service</h4> -->
+   <!-- <h4>An End-to-End DevOps Solution</h4> -->
+   <!-- </div> -->
+
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     <!--<h5 align="right">&nbsp; --> User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;</h5>
+
+     <ul class="tabs  primary-nav">
+      <li class="tabs__item">
+        <a href="/devops" class="tabs__link">Hosting Solutions</a>
+      </li>
+      <li class="tabs__item">
+        <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+      </li>
+      <% if(admin){%> 
+      <li class="tabs__item">
+        <a href="/admin" class="tabs__link">Manage Users</a>
+      </li>
+      <% } %>     
+    </ul>
+
+    <% if(superadmin){%> 
+    <h5 align="right"> 
+     <ul>
+       <a style="float:right padding:20px 20px 20px" href="/admin/superadmin">Manage Teams </a>
+     </ul>
+   </h5>
+   <% } %>
+
+
+   <table>
+    <colgroup>
+    <col>
+    <col class=t20>
+    <col class=t20>
+    <col class=t20>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>
+        Filter Patterns : Enter comma separated names of tools your team use:
+        <input placeholder="eg, github, rtc, ucd, bluemix, slack etc " type="text" id="toolQuery" size="75"></input>           
+      </th>
+      <!-- <th>Action</th> -->
+    </tr>
+  </thead>   
+
+  <tbody>
+    <tr id="pattern1" style="display:block">
+      <td>          
+        <a href="/automate/pattern1">jenkins + rtc + maven/mvn + sonar + bluemix + slack<br/>
+          <img src="/img/pattern1-logo.png" alt="Pattern 1"/></a>
+          <a href="#" onclick="window.open('/img/pattern1-detailed.png')">View Devops Flow</a>
+        </td>
+      </tr>
+      <tr id="pattern2" style="display:block">
+        <td>          
+          <a href="/automate/pattern2">jenkins + github + ant + sonar + artifactory + ucd/urbancode + slack<br/><img src="/img/pattern2-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern2-detailed.png')">View Devops Flow</a>
+        </td>
+      </tr>
+      <tr id="pattern3" style="display:block">
+        <td>          
+          <a href="/automate/pattern3">travis ci + github + npm/node js + sonar + github releases + moon bluemix + slack<br/><img src="/img/pattern3-logo.png" alt="Pattern 3"/></a>
+          <a href="#" onclick="window.open('/img/pattern3-detailed.png')">View Devops Flow</a>
+        </td>
+      </tr>
+      <tr id="pattern4" style="display:block">
+        <td>          
+          <a href="/automate/pattern4">travis ci + github + maven/mvn + sonar + github releases + moon bluemix + slack<br/><img src="/img/pattern4-logo.png" alt="Pattern 4"/></a>
+          <a href="#" onclick="window.open('/img/pattern4-detailed.png')">View Devops Flow</a>
+        </td>
+      </tr>
+      <tr id="pattern5" style="display:block">
+        <td>          
+          <a href="/automate/pattern5">jenkins + github + python + sonar + docker + kubernetes + slack<br/><img src="/img/pattern5-logo.png" alt="Pattern 5"/></a>
+          <a href="#" onclick="window.open('/img/pattern5-detailed.png')">View Devops Flow</a>
+        </td>
+      </tr>
+      <tr id="pattern6" style="display:block">
+        <!-- <td>          
+          <a href="">jenkins + github + gradle + sonar + artifactory + tomcat + slack<br/><img src="/img/pattern6-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern6-detailed.png')">View Devops Flow</a>
+        </td> -->
+      </tr>
+      <tr id="pattern7" style="display:block">
+        <!-- <td>          
+          <a href="">jenkins + rtc + gradle + sonar + artifactory + tomcat + slack<br/><img src="/img/pattern7-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern7-detailed.png')">View Devops Flow</a>
+        </td> -->
+      </tr>      
+      <tr id="pattern8" style="display:block">
+        <!-- <td>          
+          <a href="">jenkins + rtc + ant + sonar + artifactory + tomcat + slack<br/><img src="/img/pattern8-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern8-detailed.png')">View Devops Flow</a>
+        </td> -->
+      </tr>
+      <tr id="pattern9" style="display:block">
+        <!-- <td>          
+          <a href="">travis ci + github + gradle + sonar + github releases + bluemix + slack<br/><img src="/img/pattern9-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern9-detailed.png')">View Devops Flow</a>
+        </td> -->
+      </tr>
+      <tr id="pattern10" style="display:block">
+        <td>          
+          <a href="/automate/pattern10">jenkins + rtc + maven/mvn + sonar + ucd/urbancode + slack<br/><img src="/img/pattern10-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern10-detailed.png')">View Devops Flow</a>
+        </td>
+      </tr>
+      <tr id="pattern11" style="display:block">
+        <!-- <td>          
+          <a href="">travis ci + github + ant + sonar + artifactory + bluemix + slack<br/><img src="/img/pattern11-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern11-detailed.png')">View Devops Flow</a>
+        </td> -->
+      </tr>
+      <tr id="pattern12" style="display:block">
+        <!-- <td>          
+          <a href="">jenkins + rtc + npm/node js + artifactory + bluemix + slack<br/><img src="/img/pattern12-logo.png" alt="Pattern 2"/></a>
+          <a href="#" onclick="window.open('/img/pattern12-detailed.png')">View Devops Flow</a>
+        </td> -->
+      </tr>
+      <tr id="pattern15" style="display:block">
+        <td>          
+          <a href="/automate/pattern15">jenkins + github + maven + sonar + bluemix + slack<br/><img src="/img/pattern15-logo.png" alt="Pattern 2"></a>
+          <a href="#" onclick="window.open('/img/pattern15-detailed.png')">View Devops Flow</a>          
+        </td>
+      </tr> 
+    </tr> 
+  </tbody>
+</table>
+
+
+<div id="footer">
+  <div id="footerContent">
+    Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>
+    <!-- <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div> -->
+  </div>
+</div>
+
+<script>
+  onload = function () {
+   var e = document.getElementById('toolQuery');
+   e.oninput = findPatterns;
+   e.onpropertychange = e.oninput; // for IE8       
+ };
+</script>
+
+</body>
+</html>

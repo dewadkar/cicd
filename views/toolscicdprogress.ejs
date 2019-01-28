@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="SHORTCUT ICON" href="https://www.moon.com/favicon.ico">
+	<title>Whitewater</title>
+	<link rel="stylesheet"
+	href="/stylesheets/main.css?cacheBust=bDt9pLZIlPuKWO0TQKDm8w==">
+	<link rel="icon" href="https://www.moon.com/favicon.ico">
+
+	<title><%= title %></title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel='stylesheet' href='/stylesheets/devops.css' />
+	<link rel='stylesheet' href='/stylesheets/tabs.css' />
+	<link rel='stylesheet' href='/stylesheets/table.css' />
+	<link rel='stylesheet' href='/stylesheets/codepen.css' />
+	<link rel='stylesheet' href='/stylesheets/pipeline.css' />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+
+		$( window ).load(function() {
+
+			var input="<%= JSON.stringify(progress); %>";
+			var test= input.replace(/&#34;/gi,'"');
+			var progress=JSON.parse(test);
+			var x=document.getElementById("progressbar");  
+			x.innerHTML="";
+			var content='';
+			if(progress){
+				for(var tool in progress){
+			   //alert(progress[tool]);
+			   var htmlContentStart='<div class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+progress[tool]+'"';
+			   var endContent='aria-valuemin="0" aria-valuemax="100" style="width:'+progress[tool]+'%">'+progress[tool]+' Complete ('+tool+')</div></div></div>';
+			   content+=htmlContentStart+endContent;				 
+
+			}
+			x.innerHTML=x.innerHTML+content;
+		}
+
+
+
+	});
+
+		$(document).ready(function(){
+
+		});
+
+	</script>
+
+
+</head>
+<body>
+
+
+	<div id="header" align="center">
+		<h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4>
+		
+
+		<h5 align="right">Team Name - <b><%- JSON.stringify(team) %></b>&nbsp;&nbsp;
+			User - <b><%- JSON.stringify(email) %></b>&nbsp;
+			<a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;
+		</h5>
+
+		<ul class="tabs  primary-nav">
+			<li class="tabs__item">
+				<a href="/devops" class="tabs__link">Hosting Solutions</a>
+			</li>
+			<li class="tabs__item">
+				<a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+			</li>
+		</ul>
+
+		<div class="row">
+			<div class="col-xs-6 col-center-block">
+				<h1><%= title %></h1>
+
+				<div id="progressbar">
+					<p>Problem in showing progress!!!</p>
+				</div>
+
+				<h3><a id="jenkins-job" target="_blank" href="https://jenkins.wwts.ciodevcld.innovate.moon.com/">Click here to access the automation</a></h3>
+
+				<h3>You just configured following devops flow successfully : </h3>				
+
+				<br/>
+			</form> 
+
+		</div>
+
+		<img id="pattern-detailed" src="">
+
+			<div id="footer">
+				<div id="footerContent">
+					Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>
+				</div>
+			</div>
+
+		<script type="text/javascript">
+			// alert("/img/"+<%- JSON.stringify(from) %>+"-detailed.png");
+			document.getElementById('pattern-detailed').src="/img/"+<%- JSON.stringify(from) %>+"-detailed.png";
+			var jobType = <%- JSON.stringify(jenkinsJobName) %>;
+			if(jobType.indexOf("travis")>-1){				
+				document.getElementById('jenkins-job').href="https://travis.innovate.moon.com/"+<%- JSON.stringify(travisRepoName) %>;
+			}else{
+				document.getElementById('jenkins-job').href=<%- JSON.stringify(jenkinsHost)%>+"/job/"+<%- JSON.stringify(jenkinsJobName) %>;
+			}			
+
+		</script>
+
+
+	</body>
+
+	</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+ <link rel='stylesheet' href='/stylesheets/form.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+ <script type="text/javascript">
+
+  function cancel(){
+    var cancelUrl = "/automate/"+<%- JSON.stringify(from) %>;
+    window.location.href = cancelUrl;
+  }
+
+  function setCheckBoxValueToTrueOrFalse(cb) { 
+    if(cb.checked) { 
+      cb.value = "true";
+      if(document.getElementById("serveruri").value.trim().length < 1){
+        document.getElementById("serveruri").value = " ";
+      }
+      if(document.getElementById("username").value.trim().length < 1){
+        document.getElementById("username").value = " ";
+      }
+      if(document.getElementById("password").value.trim().length < 1){
+        document.getElementById("password").value = " ";
+      }
+      if(document.getElementById("component").value.trim().length < 1){
+        document.getElementById("component").value = " ";
+      }      
+      if(document.getElementById("version").value.trim().length < 1){
+        document.getElementById("version").value = " ";
+      }
+      if(document.getElementById("baseartifactdirectory").value.trim().length < 1){
+        document.getElementById("baseartifactdirectory").value = " ";
+      }
+      if(document.getElementById("includeartifacts").value.trim().length < 1){
+        document.getElementById("includeartifacts").value = " ";
+      }
+      if(document.getElementById("process").value.trim().length < 1){
+        document.getElementById("process").value = " ";
+      }
+      if(document.getElementById("application").value.trim().length < 1){
+        document.getElementById("application").value = " ";
+      }
+      if(document.getElementById("environment").value.trim().length < 1){
+        document.getElementById("environment").value = " ";
+      }
+    }else{
+      cb.value = "false";
+      if(document.getElementById("serveruri").value.trim().length === 0){
+        document.getElementById("serveruri").value = "";
+      }
+      if(document.getElementById("username").value.trim().length === 0){
+        document.getElementById("username").value = "";
+      }
+      if(document.getElementById("password").value.trim().length === 0){
+        document.getElementById("password").value = "";
+      }
+      if(document.getElementById("component").value.trim().length === 0){
+        document.getElementById("component").value = "";
+      }      
+      if(document.getElementById("version").value.trim().length === 0){
+        document.getElementById("version").value = "";
+      }
+      if(document.getElementById("baseartifactdirectory").value.trim().length === 0){
+        document.getElementById("baseartifactdirectory").value = "";
+      }
+      if(document.getElementById("includeartifacts").value.trim().length === 0){
+        document.getElementById("includeartifacts").value = "";
+      }
+      if(document.getElementById("process").value.trim().length === 0){
+        document.getElementById("process").value = "";
+      }
+      if(document.getElementById("application").value.trim().length === 0){
+        document.getElementById("application").value = "";
+      }
+      if(document.getElementById("environment").value.trim().length === 0){
+        document.getElementById("environment").value = "";
+      }
+    }
+  }
+
+  function init(){    
+    var ignore = <%- JSON.stringify(ignoreUcd) %>;    
+    if(ignore){
+      document.getElementById("ignoreUcd").checked=true;
+    }else{
+      document.getElementById("ignoreUcd").checked=false;
+    }
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body onload="init()">
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch</b> - DevOps Pipeline as a Service</h4>
+   <h4>An end to end devOps solution</h4>
+ </div>
+ 
+ <h5><a style="float:right" href="/signout">Sign Out</a></h5>
+ 
+ <ul class="tabs  primary-nav">
+  <li class="tabs__item">
+    <a href="/devops" class="tabs__link">Hosting Solutions</a>
+  </li>
+  <li class="tabs__item">
+    <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+  </li>
+</ul>
+
+
+<form action="/automate/configure/deployucdsubmit" id="form1" method="post">  
+  <div>
+    <input align="left" style="width:1%" onchange="setCheckBoxValueToTrueOrFalse(this)" id="ignoreUcd" name="ignoreUcd" type="checkbox"></input>
+    <b>Disable UCD in Pipeline</b>
+  </div>
+  <div>
+    <label for="Server URI">Server URI:</label>
+    <input type="text" name="serveruri" id="serveruri" value=<%- JSON.stringify(serveruri) %> required data-required-message="Server URI is required.">
+    <div class="info">
+      The IBM UrbanCode Deploy server to publish to.
+    </div>
+  </div>
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" value=<%- JSON.stringify(username) %> required data-required-message="Username is required.">
+    <div class="info">
+      The user name used to login to the IBM UrbanCode Deploy server.
+    </div>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" value=<%- JSON.stringify(password) %> required data-required-message="Password is required.">
+    <div class="info">
+      The password used to login to the IBM UrbanCode Deploy server.
+    </div>
+  </div>
+  <div>
+    <label for="Component">Component:</label>
+    <input type="text" name="component" id="component" value=<%- JSON.stringify(component) %> required data-required-message="Component is required.">
+    <div class="info">
+      The name of the component in the IBM UrbanCode Deploy server which will receive this version.
+    </div>
+  </div>
+  <div>
+    <label for="Version">Version:</label>
+    <input type="text" name="version" id="version" value=<%- JSON.stringify(version) %> required data-required-message="Version is required.">
+    <div class="info">
+      The name of the new version that will be created in the IBM UrbanCode Deploy server. You can reference Jenkins variables, eg. ${BUILD_NUMBER}.
+    </div>
+  </div>  
+  <div>
+    <label for="Base Artifact Directory">Base Artifact Directory:</label>
+    <input type="text" name="baseartifactdirectory" id="baseartifactdirectory" value=<%- JSON.stringify(baseartifactdirectory) %> required data-required-message="Base Artifact Directory is required.">
+    <div class="info">
+      Specify the base directory where the artifacts are located relative to the root dir. Default value of ${WORKSPACE} will take you to the root dir.
+    </div>
+  </div>
+  <div>
+    <label for="Include Artifacts">Include Artifacts:</label>
+    <input type="text" name="includeartifacts" id="includeartifacts" value=<%- JSON.stringify(includeartifacts) %> required data-required-message="Include is required.">
+    <div class="info">
+      A new line separated list of file filters to select the files to publish. Default is **/* which includes everything in the workspace.
+    </div>
+  </div>
+  <div>
+    <label for="Process">Process:</label>
+    <input type="text" name="process" id="process" value=<%- JSON.stringify(process) %> required data-required-message="Build Command is required.">
+    <div class="info">
+      The name of the application process in IBM UrbanCode Deploy which will be used to deploy the new version.
+    </div>
+  </div>
+  <div>
+    <label for="Application">Application:</label>
+    <input type="text" name="application" id="application" value=<%- JSON.stringify(application) %> required data-required-message="Build Command is required.">
+    <div class="info">
+      The name of the application in IBM UrbanCode Deploy which will be used to deploy the new version.
+    </div>
+  </div>
+  <div>
+    <label for="Environment">Environment:</label>
+    <input type="text" name="environment" id="environment" value=<%- JSON.stringify(environment) %> required data-required-message="Build Command is required.">
+    <div class="info">
+      The name of the environment in IBM UrbanCode Deploy to deploy to.
+    </div>
+  </div>
+  <div>
+    <input type="hidden" name="from" id="from" value=<%- JSON.stringify(from) %>>
+    <input type="button" class="cancel" onclick="cancel()" value="Cancel" />
+    <button type="submit" form="form1">Save Configuration</button>
+  </div>
+</form>
+
+<div id="footer">
+  <div id="footerContent">
+   <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div>
+ </div>
+</div>
+
+
+</body>
+</html>

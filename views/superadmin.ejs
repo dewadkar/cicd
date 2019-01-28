@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+ <script type="text/javascript">
+
+  function addTeam(){
+    var team = document.getElementById("team").value;
+    if(team.trim().length < 1){
+      alert("Please enter a team name;")
+      return;
+    }
+    var teams = <%- JSON.stringify(teams) %>    
+    var array = teams.toString().split(",");    
+    var arrayLength = array.length;    
+
+    team = team.toLowerCase();
+
+    for (var i = 0; i < arrayLength; i++) {      
+      var teamName = array[i].replace(".txt", "").toLowerCase();
+        if(teamName == team){
+          alert('A team with name ' + team + ' already exists. Please provide a different name.')
+          return;
+        } 
+    }
+
+    window.location.href= window.location.origin+'/admin/addTeam?team='+team;
+  }
+
+  function manageUsers(teamToManage){    
+    window.location.href= window.location.origin+'/admin/manageUsers?teamToManage='+teamToManage;
+  }
+
+  function switchToTeam(teamToManage){    
+    window.location.href= window.location.origin+'/admin/switchToTeam?teamToManage='+teamToManage;
+  }
+
+  function removeTeam(teamToManage){    
+    window.location.href= window.location.origin+'/admin/removeTeam?teamToRemove='+teamToManage;
+  }
+
+  function manageNamespaces(){
+    window.location.href= window.location.origin+'/k8s/admin';
+  }
+
+  function createTable(){
+    var teams = <%- JSON.stringify(teams) %>    
+    var array = teams.toString().split(",");    
+    // alert(array);
+    var arrayLength = array.length;
+    var theTable = document.createElement('table');
+
+    for (var i = 0, tr, td1, td2, td3, td4; i < arrayLength; i++) {
+      if(array[i].trim().length > 0 ){
+        tr = document.createElement('tr');
+        td1 = document.createElement('td');
+        var teamName = array[i].replace(".txt","");
+        td1.appendChild(document.createTextNode(teamName));
+        tr.appendChild(td1);        
+        
+        /*td2 = document.createElement('td');      
+        var manageButton = document.createElement('a');
+        manageButton.setAttribute('href',"#");
+        manageButton.setAttribute('onclick',"manageUsers('"+teamName+"')");
+        manageButton.setAttribute('class',"btn");
+        manageButton.innerHTML = "Manage Users";
+        td2.appendChild(manageButton);
+        tr.appendChild(td2);*/
+
+        td4 = document.createElement('td');      
+        var manageButton = document.createElement('a');
+        manageButton.setAttribute('href',"#");
+        manageButton.setAttribute('onclick',"switchToTeam('"+teamName+"')");
+        manageButton.setAttribute('class',"btn");
+        manageButton.innerHTML = "Switch to " + teamName;
+        td4.appendChild(manageButton);
+        tr.appendChild(td4);
+
+        td5 = document.createElement('td');      
+        var manageButton = document.createElement('a');
+        manageButton.setAttribute('href',"#");
+        manageButton.setAttribute('onclick',"removeTeam('"+teamName+"')");
+        manageButton.setAttribute('class',"btn");
+        manageButton.innerHTML = "Delete Team";
+        td5.appendChild(manageButton);
+        tr.appendChild(td5);
+
+        theTable.appendChild(tr);
+      }
+    }
+
+    document.getElementById('users').appendChild(theTable);    
+    
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body onload="createTable()">
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4>
+   
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;</h5>
+   </ul>
+
+   <div style="float:left">  
+    <input placeholder="Team Name" type="text" id="team"></input>      
+    <a href="#" class="btn" onclick=addTeam()>Add Team</a>
+  </div>  
+
+  <div style="float:right">      
+    <a href="#" class="btn" onclick=manageNamespaces()>Manage Containers</a>
+  </div>  
+  <br>
+  <br>
+
+  <div id="users"></div>    
+
+  <div id="footer">
+    <div id="footerContent">
+      Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>    
+    </div>
+  </div>
+
+
+</body>
+</html>

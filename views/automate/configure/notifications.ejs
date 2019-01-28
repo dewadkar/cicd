@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+ <link rel='stylesheet' href='/stylesheets/form.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+
+ 
+
+ <script type="text/javascript">
+
+  function cancel(){
+    var cancelUrl = "/automate/"+<%- JSON.stringify(from) %>;
+    window.location.href = cancelUrl;
+  }
+
+
+  function setCheckBoxValueToTrueOrFalse(cb) { 
+    if(cb.checked) { 
+      cb.value = "true";      
+      if(document.getElementById("teamdomain").value.trim().length < 1){
+        document.getElementById("teamdomain").value = " ";
+      }
+      if(document.getElementById("slacktoken").value.trim().length < 1){
+        document.getElementById("slacktoken").value = " ";
+      }
+      if(document.getElementById("slackchannel").value.trim().length < 1){
+        document.getElementById("slackchannel").value = " ";
+      }
+    }else{
+      cb.value = "false";
+      if(document.getElementById("teamdomain").value.trim().length === 0){
+        document.getElementById("teamdomain").value = "";
+      }
+      if(document.getElementById("slacktoken").value.trim().length === 0){
+        document.getElementById("slacktoken").value = "";
+      }
+      if(document.getElementById("slackchannel").value.trim().length === 0){
+        document.getElementById("slackchannel").value = "";
+      }
+    }
+  }
+
+  function init(){  
+    var ignore = <%- JSON.stringify(ignoreSlack) %>;
+    if(ignore){
+      document.getElementById("ignoreSlack").checked=true;
+    }else{
+      document.getElementById("ignoreSlack").checked=false;
+    }
+  }
+
+  /*function testconfig(){
+    var slackUrl='http://chat-ops.slack.com/api/auth.test?token=g1FA7Imb5kO3SMojFxrUngHo';
+    $.ajax({
+      url: slackUrl,
+      crossDomain: true,
+      type: 'GET',
+      dataType: 'json',
+      success: function(result){
+       alert("Connection Successful.");
+     },
+     error: function (xhr, ajaxOptions, thrownError) {
+      alert("Failed to connect.");
+    }});
+}*/
+
+$(document).ready(function() {
+
+});
+
+</script>
+</head>
+<body onload="init()">
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch</b> - DevOps Pipeline as a Service</h4>
+   <h4>An end to end devOps solution</h4>
+ </div>
+ 
+ <h5><a style="float:right" href="/signout">Sign Out</a></h5>
+ 
+ <ul class="tabs  primary-nav">
+  <li class="tabs__item">
+    <a href="/devops" class="tabs__link">Hosting Solutions</a>
+  </li>
+  <li class="tabs__item">
+    <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+  </li>
+</ul>
+
+
+<form action="/automate/configure/notificationssubmit" id="form1" method="post">
+
+  <div>
+    <input align="left" style="width:1%" onchange="setCheckBoxValueToTrueOrFalse(this)" id="ignoreSlack"  name="ignoreSlack" type="checkbox" >    
+  </input>
+  <b>Disable Slack in Pipeline<b>
+  </div>
+  <div>
+    <label for="teamdomain">Team Domain:</label>
+    <input type="text" name="teamdomain" id="teamdomain" value=<%- JSON.stringify(teamdomain) %> required data-required-message="Team Domain is required.">
+    <div class="info">
+      Your team's Slack subdomain. If you sign in to slack at https://example.slack.com/, your subdomain is 'example'.
+    </div>
+  </div>
+  <div>
+    <label for="slacktoken">Slack Token:</label>
+    <input type="text" name="slacktoken" id="slacktoken" value=<%- JSON.stringify(slacktoken) %> required data-required-message="Slack Token is required.">
+    <div class="info">
+      The integration token to be used to send notifications to Slack. You can copy this from the settings page within Slack.
+    </div>
+  </div>
+  <div>
+    <label for="slackchannel">Slack Channel:</label>
+    <input type="text" name="slackchannel" id="slackchannel" value=<%- JSON.stringify(slackchannel) %> required data-required-message="Slack Channel is required.">
+    <div class="info">
+      Enter the channel name to which notifications should be sent.
+    </div>
+  </div>
+  <div>
+    <input type="hidden" name="from" id="from" value=<%- JSON.stringify(from) %>>
+    <input type="button" class="cancel" onclick="cancel()" value="Cancel" />
+    <!-- <input type="button" class="testconfig" onclick="testconfig()" value="Test Configurations" /> -->
+    <button type="submit" form="form1">Save Configuration</button>
+  </div>
+</form>
+
+<div id="footer">
+  <div id="footerContent">
+   <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div>
+ </div>
+</div>
+
+
+</body>
+</html>

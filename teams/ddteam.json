@@ -1,0 +1,402 @@
+{
+    "team": "ddteam",
+    "teamns": "wwNAMESPACE",
+    "tools": {
+        "jenkins": {
+            "hosted": true,
+            "url": "https://jenkins-wwNAMESPACE.ciodevcld.innovate.moon.com/"
+        },
+        "sonar": {
+            "hosted": true,
+            "url": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/"            
+        },
+        "ucd": {
+            "hosted": false,
+            "url": "https://ucd-wwNAMESPACE.ciodevcld.innovate.moon.com/"
+        },
+        "artifactory": {
+            "hosted": false,
+            "url": "http://artifactory-wwNAMESPACE.ciodevcld.innovate.moon.com/artifactory"
+        }
+    },
+    "pipeline": {
+        "pattern1": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "rtc": {
+                    "version": "",
+                    "serveruri": "",
+                    "workspace": "",
+                    "username": "",
+                    "password": "",
+                    "configured": false
+                },
+                "maven": {
+                    "buildcommand": "",
+                    "pomfilepath": "",
+                    "configured": false
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "bluemix": {
+                    "target": "",
+                    "username": "",
+                    "password": "",
+                    "organization": "",
+                    "cloudSpace": "",
+                    "credentialsId": "",
+                    "manifestFile": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "jenkins": {
+                    "serveruri": "https://jenkins-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "wwater@us.moon.com",
+                    "password": "52dddb9633497e45131cd318",
+                    "configured": true
+                },
+                "artifactory": {
+                    "ignore": false,
+                    "configured": false,
+                    "serveruri": "http://artifactory-wwNAMESPACE.ciodevcld.innovate.moon.com/artifactory",
+                    "username": "",
+                    "password": "",
+                    "pomconfigured": false,
+                    "restartJenkins": false
+                }
+            }
+        },
+        "pattern2": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "rtc": {
+                    "version": "",
+                    "serveruri": "",
+                    "workspace": "",
+                    "username": "",
+                    "password": "",
+                    "configured": false
+                },
+                "ant": {
+                    "configured": false,
+                    "antbuildfile": "build.xml",
+                    "anttargets": "",
+                    "antproperties": ""                                       
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "ucd": {
+                    "serveruri": "https://ucd-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "",
+                    "password": "",
+                    "component": "",
+                    "version": "",
+                    "buildcommand": "",
+                    "process": "",
+                    "application": "",
+                    "environment": "",
+                    "includeartifacts": "",
+                    "baseartifactdirectory": "${WORKSPACE}",
+                    "configured": false,
+                    "ignore": false
+                },
+                "jenkins": {
+                    "serveruri": "https://jenkins-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "wwater@us.moon.com",
+                    "password": "52dddb9633497e45131cd318",
+                    "configured": true
+                },
+                "artifactory": {
+                    "ignore": false,
+                    "configured": false,
+                    "serveruri": "http://artifactory-wwNAMESPACE.ciodevcld.innovate.moon.com/artifactory",
+                    "username": "",
+                    "password": "",
+                    "pomconfigured": false,
+                    "restartJenkins": false
+                }
+            }
+        },
+        "pattern3": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "github": {
+                    "org": "",
+                    "repository": "",
+                    "username": "",
+                    "githubRepoUrl": "",
+                    "githubBranch": "",
+                    "configured": false
+                },
+                "npm": {
+                    "npmcommand": "",
+                    "configured": false
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "bluemix": {
+                    "target": "",
+                    "username": "",
+                    "password": "",
+                    "organization": "",
+                    "cloudSpace": "",
+                    "credentialsId": "",
+                    "manifestFile": "",
+                    "configured": false,
+                    "ignore": false
+                }
+            }
+        },
+        "pattern4": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "github": {
+                    "org": "",
+                    "repository": "",
+                    "username": "",
+                    "githubRepoUrl": "",
+                    "githubBranch": "",
+                    "configured": false
+                },
+                "maven": {
+                    "buildcommand": "",
+                    "pomfilepath": "",
+                    "configured": false
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "bluemix": {
+                    "target": "",
+                    "username": "",
+                    "password": "",
+                    "organization": "",
+                    "cloudSpace": "",
+                    "credentialsId": "",
+                    "manifestFile": "",
+                    "configured": false,
+                    "ignore": false
+                }
+            }
+        },
+        "pattern5": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "github": {
+                    "org": "",
+                    "repository": "",
+                    "username": "",
+                    "serveruri": "",
+                    "githubRepoUrl": "",
+                    "githubBranch": "",
+                    "configured": false
+                },
+                "python": {
+                    "buildcommand": "",
+                    "unittestcommand": "",
+                    "configured": false
+                },
+                "kubernetes": {
+                    "ignore": false,
+                    "configured": false,
+                    "dockerregistryURL": "",
+                    "repositoryname": "",
+                    "tag": "",                    
+                    "containerport": "",
+                    "hostport": ""
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "jenkins": {
+                    "serveruri": "https://jenkins-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "wwater@us.moon.com",
+                    "password": "52dddb9633497e45131cd318",
+                    "configured": true
+                },
+                "docker": {
+                    "ignore": false,
+                    "configured": false,
+                    "dockerregistryURL": "https://isdockreg101.innovate.moon.com/",
+                    "repositoryname": "",
+                    "tag": ""
+                },"testcommand": {
+                     "testcommand" : "",
+                     "configured": false,
+                }
+            }
+        },
+        "pattern10": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "rtc": {
+                    "version": "",
+                    "serveruri": "",
+                    "workspace": "",
+                    "username": "",
+                    "password": "",
+                    "configured": false
+                },
+                "maven": {
+                    "buildcommand": "",
+                    "pomfilepath": "",
+                    "configured": false
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "ucd": {
+                    "serveruri": "https://ucd-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "",
+                    "password": "",
+                    "component": "",
+                    "version": "",
+                    "buildcommand": "",
+                    "process": "",
+                    "application": "",
+                    "environment": "",
+                    "includeartifacts": "",
+                    "baseartifactdirectory": "${WORKSPACE}",
+                    "configured": false,
+                    "ignore": false
+                },
+                "jenkins": {
+                    "serveruri": "https://jenkins-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "wwater@us.moon.com",
+                    "password": "52dddb9633497e45131cd318",
+                    "configured": true
+                },
+                "artifactory": {
+                    "ignore": false,
+                    "configured": false,
+                    "serveruri": "http://artifactory-wwNAMESPACE.ciodevcld.innovate.moon.com/artifactory",
+                    "username": "",
+                    "password": "",
+                    "pomconfigured": false,
+                    "restartJenkins": false
+                }
+            }
+        },
+        "pattern15": {            
+            "config": {
+                "slack": {
+                    "slacktoken": "",
+                    "slackchannel": "",
+                    "teamdomain": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "github": {
+                    "org": "",
+                    "repository": "",
+                    "username": "",
+                    "serveruri": "",
+                    "githubRepoUrl": "",
+                    "githubBranch": "",
+                    "configured": false
+                },
+                "maven": {
+                    "buildcommand": "",
+                    "pomfilepath": "",
+                    "configured": false
+                },
+                "sonar": {
+                    "language": "",
+                    "sourcefolder": "",
+                    "serveruri": "http://sonar-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "configured": false,
+                    "ignore": false
+                },
+                "bluemix": {
+                    "target": "",
+                    "username": "",
+                    "password": "",
+                    "organization": "",
+                    "cloudSpace": "",
+                    "credentialsId": "",
+                    "manifestFile": "",
+                    "configured": false,
+                    "ignore": false
+                },
+                "jenkins": {
+                    "serveruri": "https://jenkins-wwNAMESPACE.ciodevcld.innovate.moon.com/",
+                    "username": "wwater@us.moon.com",
+                    "password": "52dddb9633497e45131cd318",
+                    "configured": true
+                },
+                "artifactory": {
+                    "ignore": false,
+                    "configured": false,
+                    "serveruri": "http://artifactory-wwNAMESPACE.ciodevcld.innovate.moon.com/artifactory",
+                    "username": "",
+                    "password": "",
+                    "pomconfigured": false,
+                    "restartJenkins": false
+                }
+            }
+        }
+    }
+}

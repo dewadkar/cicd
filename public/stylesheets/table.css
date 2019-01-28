@@ -1,0 +1,30 @@
+/* Housekeeping */
+html{
+    font:0.75em/1.5 sans-serif;
+    color:#333;
+    background-color:#fff;
+    padding:1em;
+}
+
+/* Tables */
+table{
+    width:100%;
+    margin-bottom:1em;
+}
+th{
+    font-weight:bold;
+}
+th,
+td{
+    padding:0.5em;
+    border:1px solid #ccc;
+}
+
+.radioLeft input{
+    text-align: left;        
+    vertical-align: baseline;
+}
+
+input[type="radio"]{
+    vertical-align: left;
+}

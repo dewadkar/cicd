@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/buildprocess.css' />
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+	<script>
+		var repositoryURL;
+		function showrepos(){
+			var token = <%- JSON.stringify(token) %>;
+			var url='https://github.moon.com/api/v3/user/repos?access_token='+token;
+
+			$.ajax({url: url, success: function(result){
+				var repos = result;
+				var	repositories = "";
+				for(i = 0; i < repos.length; i++) {
+					var repositoryHref ="<div style=margin-left:50px;><a href=# onclick=showRepoInfo('"+repos[i].html_url+"');>"+repos[i].name+"</a></div>";					
+					repositories += repositoryHref; 
+				}		
+				// alert(repositories);
+				document.getElementById("sidebar").style.display = 'block';
+				document.getElementById("main").style.display = 'block';
+				document.getElementById("gitLogin").style.display = 'none';		
+				document.getElementById("note").style.display = 'block';	
+				document.getElementById("logwait").style.display = 'none';
+				document.getElementById("sidebar").innerHTML = repositories;
+			}});
+		}
+
+		function buildRepository(repoURL){
+			var tempURL=repoURL.replace("https://github.moon.com/",":");
+			var gitURL=tempURL+'.git';
+			var ajaxURL="/build?giturl=git@github.moon.com"+gitURL+"&gitHttpURL="+repoURL;
+			
+			document.getElementById("screens").innerHTML = " ";
+			createNewScreen().innerHTML = "Cloning git repo :  "+ repoURL;
+
+			$.ajax({url: ajaxURL, dataType: "text", success: function(result){
+				createNewScreen().innerHTML += result;
+				buildCode(repoURL);
+			}});
+
+		}
+
+		function buildCode(repoURL){
+			var ajaxURLBuild="/getBuildSteps?giturl=" + repoURL;
+
+			$.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+				var buildsteps = result.split('\n');
+				runBuildStep(buildsteps, buildsteps.length, 0);
+					// alert(buildsteps[i]);
+				}});
+
+		}
+
+		function runBuildStep(buildsteps, numberOfSteps, i){
+			if(i >= numberOfSteps){
+				return;
+			}
+			
+			var newdiv = createNewScreen();
+
+			var ajaxURLBuild="/runStep?command=" + buildsteps[i];
+
+			$.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+				newdiv.innerHTML = result;
+				runBuildStep(buildsteps, numberOfSteps, i+1);
+				// document.getElementById("screen2").innerHTML += result;
+			}});
+
+		}
+
+		function createNewScreen(){
+			var newdiv = document.createElement("div");
+			newdiv.innerHTML = " ";
+			document.getElementById("screens").appendChild(newdiv);
+			return newdiv;
+		}
+
+		function showRepoInfo(repoURL){
+			repositoryURL = repoURL;
+			var gitHref = "<b>Repository</b> : <a href=" + repoURL +">" + repoURL + "</a>";
+			var buildButton = "&nbsp;&nbsp;<input type=button class='pill btn btn-default' id=moreFields onclick=buildRepository('"+ repoURL +"') value='Start Build'/>";
+			document.getElementById("note").innerHTML = gitHref + buildButton;
+
+			var ajaxURLBuild="/getBuildSteps?giturl=" + repoURL;
+
+			$.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+				result = result.replace(/\r?\n/g, "<br />");
+				if(result.length == 2){
+					result = 'Not configured yet. Click "Configure Build Steps" button to configure.';
+				}
+				document.getElementById("existingbuildsteps").innerHTML = result;
+				document.getElementById("buildstepView").style.display = 'block';
+				document.getElementById("buildstepEdit1").style.display = 'none';
+				document.getElementById("buildstepEdit2").style.display = 'none';
+			}});
+		}
+
+		function callGitAuthentication(){			
+			document.getElementById("gitLogin").style.display = 'none';
+			document.getElementById("logwait").style.display = 'block';
+			window.location.href= window.location.origin+'/githubHandshake?email=paranjan@in.moon.com';
+		}
+
+		function addBuildStep(){
+			document.getElementById("buildstepView").style.display = 'none';
+			document.getElementById("buildstepEdit1").style.display = 'block';
+			document.getElementById("buildstepEdit2").style.display = 'block';
+			document.getElementById("buildstepsTextArea").style.display = 'block';
+			var ajaxURLBuild="/getBuildSteps?giturl=" + repositoryURL;
+
+			$.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+				if(result.length == 2 ){
+					document.getElementById("buildstepsTextArea").value = '';
+					document.getElementById("buildstepsTextArea").setAttribute('placeholder',"Add one build step per line... eg. mvn clean install / npm install / cf push / cf restart / mvn test / ant build.xml etc");
+				}else{
+					document.getElementById("buildstepsTextArea").value = result;
+				}
+			}});
+		}
+
+		function resizeTextArea(){
+			var textareaElement = document.getElementById("buildstepsTextArea");
+			textareaElement.style.height = '5px';
+			textareaElement.style.height = textareaElement.scrollHeight + 30 + 'px';
+		}
+
+		function hideEditPanel(){
+			document.getElementById("buildstepEdit1").style.display = 'none';
+			document.getElementById("buildstepEdit2").style.display = 'none';
+			document.getElementById("buildstepView").style.display = 'block';
+		}
+
+		function discardBuildStep(){
+			hideEditPanel();
+			showRepoInfo(repositoryURL);
+		}
+
+		function saveBuildSteps(){
+
+			var buildsteps =  document.getElementById("buildstepsTextArea").value;
+			// alert(buildsteps);
+			// alert(escape(buildsteps));
+
+			var ajaxURLBuild="/saveBuildStep?giturl="+repositoryURL+"&buildsteps="+escape(buildsteps);
+
+			$.ajax({url: ajaxURLBuild, dataType: "text", success: function(result){
+				setTimeout(function(){
+					showRepoInfo(repositoryURL);
+					hideEditPanel();
+					buildsteps = buildsteps.replace(/\r?\n/g, "<br />");
+					document.getElementById("existingbuildsteps").innerHTML = buildsteps;
+				}, 1000);
+			}});
+		}
+
+		function init(){
+
+			if(window.location.href.toString().indexOf('github') > 0){
+				document.getElementById("gitLogin").style.display = 'block';
+			}
+
+			document.getElementById("sidebar").style.display = 'none';
+			document.getElementById("main").style.display = 'none';
+			document.getElementById("buildstepView").style.display = 'none';
+			document.getElementById("buildstepEdit1").style.display = 'none';
+			document.getElementById("buildstepEdit2").style.display = 'none';
+			document.getElementById("note").style.display = 'none';
+			document.getElementById("logwait").style.display = 'none';
+			var token = <%- JSON.stringify(token) %>;
+			
+			if(token != ""){
+				document.getElementById("logwait").style.display = 'block';
+				document.getElementById("gitLogin").style.display = 'none';
+			}
+			showrepos();
+		}
+
+
+	</script>    
+
+</head>
+<body onload="init()">	
+	<div id="wrap">
+		<div id="header">WhitewaterCI - IBM Whitewater</div>
+		<div id="body">
+			<div id="logwait" align="center" style="display:none">
+				<p>&nbsp;</p><br/>
+				<img id="logwait" src="/logwait.gif"/>
+			</div>
+			<div id="gitLogin" style="display:none">
+				<p>&nbsp;</p><br/>
+				<a href="#" class="btn" onclick=callGitAuthentication()>Login with Github</a>
+			</div>	
+			<div id="sidebar" style="display:none">
+			</div>
+			<div id="main" style="display:none">
+				<!--<%-JSON.stringify(email)%>-->
+				<div id="note" class="note">
+					<p><h2>Select a repository.</h2></p>
+				</div>
+				<div id="buildstepView">
+					<a href="#" class="buildstepbutton" onclick=addBuildStep()>Configure Build Steps</a>
+					<p>&nbsp;</p><br/>
+					<div>&nbsp;&nbsp;&nbsp;&nbsp;<h4> Build Steps<h4></div>
+					<div id="existingbuildsteps" class="note">
+						
+					</div>
+				</div>
+				<div id="buildstepEdit1">
+					<textarea id="buildstepsTextArea" class="buildsteptextarea" spellcheck="false" onkeydown="resizeTextArea()" placeholder="Add one build step per line... eg. mvn clean install / npm install / cf push / cf restart / mvn test / ant build.xml etc"></textarea>
+				</div>
+				<div id="buildstepEdit2">
+					<a href="#" class="buildstepbutton" onclick=saveBuildSteps()>Save</a>
+					<a href="#" class="buildstepbutton" onclick=discardBuildStep()>Cancel</a>
+					<p>&nbsp;</p><br/>
+				</div>
+				<div id="screens">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

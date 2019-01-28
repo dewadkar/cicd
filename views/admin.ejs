@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+ <script type="text/javascript">
+
+  function manageTeams(){
+    window.location.href= window.location.origin+'/admin/superadmin';
+  }
+
+  function addMember(){
+    var email = document.getElementById("emailId").value;
+    var isAdmin = document.getElementById("isAdmin").checked;
+    if(email.trim().length > 0){
+      email = email.toLowerCase();
+      window.location.href= window.location.origin+'/admin/addMember?email='+email+'&isAdmin='+isAdmin;
+    }else{
+      alert("Please enter an user id to add.")
+    }
+  }
+
+  function removeMember(email){        
+    var confirmation = confirm("Are you sure you want to remove user " + email);  
+    if(confirmation){
+      window.location.href= window.location.origin+'/admin/removeMember?email='+email;  
+    }    
+  }
+
+  function createTable(){
+    var users = <%- JSON.stringify(users) %>    
+    var array = users.toString().split(/\r\n|\r|\n/);    
+    // alert(array);
+    var arrayLength = array.length;
+    var theTable = document.createElement('table');
+
+    for (var i = 0, tr, td1, td2; i < arrayLength; i++) {
+      if(array[i].trim().length > 0 ){
+        tr = document.createElement('tr');        
+        var userinfo = array[i].split(",");
+        for(j=0;j<3;j++){
+          var tdtemp = document.createElement('td');          
+          tdtemp.appendChild(document.createTextNode(userinfo[j]));          
+          tr.appendChild(tdtemp);
+        }
+        td2 = document.createElement('td');      
+        var removeButton = document.createElement('a');
+        removeButton.setAttribute('href',"#");
+        removeButton.setAttribute('onclick',"removeMember('"+array[i]+"')");
+        removeButton.setAttribute('class',"btn");
+        removeButton.innerHTML = "Remove Member";
+        td2.appendChild(removeButton);
+        tr.appendChild(td2);
+        theTable.appendChild(tr);
+      }
+    }
+
+    document.getElementById('users').appendChild(theTable);    
+    
+  }
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+</head>
+<body onload="createTable()">
+
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4>
+   
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;</h5>
+
+     <ul class="tabs  primary-nav">
+      <li class="tabs__item">
+        <a href="/devops" class="tabs__link">Hosting Solutions</a>
+      </li>
+      <li class="tabs__item">
+        <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+      </li>           
+    </ul>
+
+    <div>  
+      <input placeholder="User's Email Id" type="text" id="emailId"></input>
+      &nbsp;Add as admin?&nbsp;<input type="checkbox" id="isAdmin"></input>
+      <a href="#" class="btn" onclick=addMember()>Add Member</a>      
+    </div>      
+
+    <div style="color:red">
+      <%- JSON.stringify(message) %>
+    </div>
+
+    <div id="users"></div>    
+
+    <% if(superadmin){%> 
+    <div>      
+     <a href="#" class="btn" onclick=manageTeams()>Manage Teams</a>
+   </div>
+   <% } %>
+
+   <div id="footer">
+    <div id="footerContent">
+      Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>    
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

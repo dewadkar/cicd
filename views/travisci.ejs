@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel='stylesheet' href='/stylesheets/devops.css' />
+ <link rel='stylesheet' href='/stylesheets/tabs.css' />
+ <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="scripts/devops.js"></script>
+ 
+
+  <link rel='stylesheet' href='/stylesheets/buildprocess.css' />
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+   // var textToadd=="<%= JSON.stringify(ymltext) %>";
+
+   $(document).ready(function(){
+    var client_id_dpev179 = 'e4c0614a563995a85bd1';
+    var client_id_localhost = '0df63ffb86dada618a0e';
+
+    client_id = client_id_localhost;
+    // client_id = client_id_dpev179;
+
+    $('#configsubmit').click( function() {
+     window.location.href='https://github.moon.com/login/oauth/authorize?client_id='+client_id+'&scope=repo,gist';
+   } );
+
+
+  });
+
+ </script>
+</head>
+<body>
+
+
+<div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4> <!-- DevOps Pipeline as a Service</h4> -->
+   <!-- <h4>An End-to-End DevOps Solution</h4> -->
+   <!-- </div> -->
+
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     <!--<h5 align="right">&nbsp; --> User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;</h5>
+
+     <ul class="tabs  primary-nav">
+      <li class="tabs__item">
+        <a href="/devops" class="tabs__link">Hosting Solutions</a>
+      </li>
+      <li class="tabs__item">
+        <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+      </li>
+      </ul>
+      
+  <div id="page-wrap">  
+
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <% if (error){ %>
+    <div id='error'><%= error %></div>
+    <% } %>
+
+    <% if (flashmessage){ %>
+    <div class="alert alert-warning"><strong>Warning!</strong>
+      <%= flashmessage %>
+    </div>
+    <% } %>
+
+    
+    <div id="screen">YML file content: either copy into your repository yml file or push content as file in to repo.
+     <br><div id="console"><pre><%= ymltext %></pre></br>
+   </div>
+ </div>
+ <br>
+ <div class="button">
+  <button type="button" class="btn btn-success" id="configsubmit">PUSH to repo</button>
+  <button type="button" class="btn btn-default disabled">Manually copy text to a file .travis.yml inside your repository</button>
+</div>
+</div>
+</div>
+</body>
+</html>

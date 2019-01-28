@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/devops.css' />
+  <link rel='stylesheet' href='/stylesheets/tabs.css' />
+  <link rel='stylesheet' href='/stylesheets/table.css' />
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="scripts/devops.js"></script>
+
+  <script type="text/javascript">
+    function showErrors(){
+      var missingconfigurations = <%- JSON.stringify(errmessage) %>    
+      var array = missingconfigurations.toString().split(",");    
+    // alert(array);
+    var arrayLength = array.length;
+    var theTable = document.createElement('table');
+
+    for (var i = 0, tr, td1; i < arrayLength; i++) {
+      if(array[i].trim().length > 0 ){
+        tr = document.createElement('tr');
+        td1 = document.createElement('td');
+        td1.appendChild(document.createTextNode(array[i]));
+        tr.appendChild(td1);        
+        theTable.appendChild(tr);
+      }
+    }
+    document.getElementById('errors').appendChild(theTable);    
+  }
+</script>
+
+</head>
+<body onload="showErrors()">
+
+ <div id="header" align="center">
+   <h4>Whitewater <b>ToolStitch Pattern Builder</b> </h4> <!-- DevOps Pipeline as a Service</h4> -->
+
+   <h5 align="right">Team Name - <b><%- JSON.stringify(team) %><b>&nbsp;&nbsp;
+     <!--<h5 align="right">&nbsp; --> User - <b><%- JSON.stringify(email) %></b>&nbsp;
+     <a style="float:right padding:10px 10px 20px" href="/signout"> Sign Out </a>&nbsp;&nbsp;</h5>
+
+     <ul class="tabs  primary-nav">
+      <li class="tabs__item">
+        <a href="/devops" class="tabs__link">Hosting Solutions</a>
+      </li>
+      <li class="tabs__item">
+        <a href="/automate" class="tabs__link">Automated Devops Pipeline Setup</a>
+      </li>
+    </ul>
+
+    <div class="errormessage">
+     <!-- <input type="button" class="btn btn-success btn-arrow-left" VALUE="Back To Pattern Setup" onClick="history.go(-1);return true;"/> -->
+     <b><h4 style="color:red">Missing Following Configurations. Please provide these configurations by configuring respective tools.</h4></b>
+     <div id="errors"></div>
+     <input type="button" class="btn btn-success btn-arrow-left" value="Back To Pattern Setup" onClick="history.go(-1);return true;"/>
+   </div>
+
+   <div id="footer">
+    <div id="footerContent">
+     Find out more about <a href="http://whitewater.moon.com" target="_blank">Whitewater</a>
+     <!-- <div id="slack">Welcome to Whitewater toolstitch - pipeline as a service</div> -->
+   </div>
+ </div>
+
+</div>
+
+</body>
+</html>
